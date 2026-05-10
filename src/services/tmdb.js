@@ -23,7 +23,7 @@ function addMediaType(items, type) {
 // 🔥 محبوب
 export async function getPopularMovies() {
   const data = await fetchFromTMDB("/movie/popular");
-  return addMediaType(data, "movie");
+  return addMediaType(data);
 }
 
 // 🔥 جدید (movie + tv)
@@ -34,6 +34,8 @@ export async function getNowPlayingMovies() {
   ]);
 
   const combined = [...movies, ...tv];
+
+
 
   // مرتب بر اساس تاریخ
   const sorted = combined.sort((a, b) => {
@@ -57,7 +59,11 @@ export async function getTvShows() {
   const data = await fetchFromTMDB("/discover/tv");
   return addMediaType(data, "tv");
 }
-
+// 🔥 فیلم ها
+export async function getMovies() {
+  const data = await fetchFromTMDB("/discover/movie");
+  return addMediaType(data, "movie");
+}
 // 🔍 سرچ (movie + tv)
 export async function searchMulti(query) {
   if (!query.trim()) return [];

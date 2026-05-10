@@ -7,35 +7,37 @@ import {
   getTvShows,
   getNowPlayingMovies,
   searchMulti as searchMovies,
-  getTrending
+  getTrending,
+  getMovies,
 } from "../services/tmdb";
 import Slider from "../components/Slider";
 
-
 function Home() {
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [PopularMovies, setPopularMovies] = useState([]);
+
+
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [tvShows, setTvShows] = useState([]);
-   const [trendingMovies, setTrendingMovies] = useState([]);
-
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [discoverMovies, setdiscoverMovies] = useState([]);
 
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
- 
 
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const popular = await getPopularMovies();
+      const popular = await getPopularMovies();
         const nowPlaying = await getNowPlayingMovies();
         const tv = await getTvShows();
         const trending = await getTrending();
-
+        const discoverMovies =await getMovies();
 
         setPopularMovies(popular);
         setNowPlayingMovies(nowPlaying);
         setTvShows(tv);
         setTrendingMovies(trending);
+        setdiscoverMovies(discoverMovies);
       } catch (error) {
         console.error(error);
       }
@@ -61,55 +63,54 @@ function Home() {
     }
   };
 
+
+
   return (
     <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden ">
-      {!hasSearched && <Slider movies={trendingMovies} onSearch={handleSearch} />}
+      {!hasSearched && (
+        <Slider movies={PopularMovies} onSearch={handleSearch} />
+        
+      )}
       <main className="max-w-7xl mx-auto px-4 py-8 overflow-x-hidden ">
-
-      <SearchBar onSearch={handleSearch}/>
+        
 
         {hasSearched ? (
           <section className="mt-16 space-y-4">
-              <div className="inline-flex items-center mt-14 justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg border border-slate-700 ">
-                <h2 className="text-xs sm:text-lg md:text-2xl leading-none -translate-y-0.5">
-                
-              Search Results
-             
-            </h2>
-              </div>
-            <MovieGrid movies={searchResults.slice(0, 100)} hasSearched={true} />
+            <div className="inline-flex items-center mt-14 justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg border border-slate-700 ">
+              <h2 className="text-xs sm:text-lg md:text-2xl leading-none -translate-y-0.5">
+                Search Results
+              </h2>
+            </div>
+            <MovieGrid
+              movies={searchResults.slice(0, 100)}
+              hasSearched={true}
+            />
           </section>
         ) : (
-         
-          <div className="space-y-2 flex flex-col "> 
+          <div className="space-y-2 flex flex-col ">
             <section>
-              <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1 border border-slate-700">
+              <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1  border border-slate-700">
                 <h2 className="text-xs sm:text-lg md:text-2xl leading-none -translate-y-0.5">
                   Popular
                 </h2>
               </div>
-              <MovieGrid
-
-                movies={popularMovies} hasSearched={false}
-
-              />
-            </section>
-
-            <section>
-               <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1">
-                <h2 className="text-xs sm:text-lg md:text-2xl leading-none -translate-y-0.5">
-                  New
-                </h2>
-              </div>
-              <MovieGrid
-                movies={nowPlayingMovies} hasSearched={false}
-
-              />
+              <MovieGrid movies={trendingMovies} hasSearched={false} />
             </section>
 
             <section>
               <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1">
-                <h2 className="text-xs sm:text-lg md:text-2xl leading-none">           TV Shows
+                <h2 className="text-xs sm:text-lg md:text-2xl leading-none -translate-y-0.5">
+                  New
+                </h2>
+              </div>
+              <MovieGrid movies={nowPlayingMovies} hasSearched={false} />
+            </section>
+
+            <section>
+              <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1">
+                <h2 className="text-xs sm:text-lg md:text-2xl leading-none">
+                  {" "}
+                  TV Shows
                 </h2>
               </div>
               <MovieGrid movies={tvShows} hasSearched={false} />
@@ -117,12 +118,12 @@ function Home() {
 
             <section>
               <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1">
-                <h2 className="text-xs sm:text-lg md:text-2xl leading-none">           Movies
+                <h2 className="text-xs sm:text-lg md:text-2xl leading-none">
+                  {" "}
+                  Movies
                 </h2>
-              </div> 
-              <MovieGrid
-                movies={popularMovies} hasSearched={false}
-              />
+              </div>
+              <MovieGrid movies={discoverMovies} hasSearched={false} />
             </section>
           </div>
         )}
