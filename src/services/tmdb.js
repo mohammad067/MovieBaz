@@ -23,7 +23,7 @@ function addMediaType(items, type) {
 // 🔥 محبوب
 export async function getPopularMovies() {
   const data = await fetchFromTMDB("/movie/popular");
-  return addMediaType(data);
+  return addMediaType(data , "movie");
 }
 
 // 🔥 جدید (movie + tv)
@@ -96,7 +96,7 @@ export async function getTrending(timeWindow = "week") {   // week بهتره ب
 // 🎬 گرفتن جزئیات (داینامیک)
 export async function getDetails(type, id) {
   const res = await fetch(
-    `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits,videos,similar`
+    `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits,videos,similar` //برای
   );
 
   if (!res.ok) throw new Error("Details Error");

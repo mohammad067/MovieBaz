@@ -40,7 +40,7 @@ function SearchBar({ onSearch }) {
             value={query}
             onChange={handleChange}
             placeholder="Search for a movie..."
-            className="w-full px-3 py-2 md:px-4 md:py- text-sm md:text-base rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-violet-600"
+            className="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-violet-600"
           />
         </div>
 

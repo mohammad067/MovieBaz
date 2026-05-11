@@ -6,9 +6,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { Navigation, Pagination, Autoplay, FreeMode } from "swiper/modules";
+import { Navigation, Pagination, FreeMode } from "swiper/modules";
 function MovieDetails() {
-  const { id, type } = useParams();
+  const { id, type, slug } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -119,9 +119,9 @@ function MovieDetails() {
 
       </div>
 
-      <div className=" mt-16 gap-6 max-w-8xl mx-auto px-4 py-2 ">
+      <div className=" mt-16 gap-6 max-w-8xl mx-auto px-4 py-2 max-w-7xl ">
         <h3 className="text-lg font-semibold mb-2">Top Cast</h3>
-        <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-4 rounded">
+        <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-4 rounded ">
 
 
           <Swiper
@@ -137,7 +137,7 @@ function MovieDetails() {
               1024: { slidesPerView: 6, spaceBetween: 10 },
               1280: { slidesPerView: 8, spaceBetween: 10 },
             }}
-            className="py-4"
+            className="py-4 "
           >
 
             {cast.map((c) => (
@@ -145,7 +145,12 @@ function MovieDetails() {
                 <div className="flex flex-col items-center text-center py-1 cursor-pointer">
 
                   <img
-                    src={`https://image.tmdb.org/t/p/w185${c.profile_path}`}
+                    src={
+                      c.profile_path
+                      ? `https://image.tmdb.org/t/p/w185${c.profile_path}`
+                      : `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(c.name)}`
+
+                  }
                     alt={c.name}
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border border-white/20 shadow-lg hover:scale-105 transition-transform duration-300"
                   />
