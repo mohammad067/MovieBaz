@@ -24,6 +24,7 @@ function SearchBar({ onSearch }) {
       onSubmit={handleSubmit}
       className="absolute top-3 left-1/2 -translate-x-1/2 z-30 flex w-full max-w-5xl items-center px-8 py-0 text-white "
     >
+      
       {/* کانتینر سرچ */}
       <div className="ml-auto flex items-center gap-2 ">
         

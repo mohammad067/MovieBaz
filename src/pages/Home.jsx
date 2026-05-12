@@ -70,7 +70,7 @@ function Home() {
       {!hasSearched && (
         <Slider movies={PopularMovies} onSearch={handleSearch} />
         
-      )}
+      )}<SearchBar onSearch={handleSearch} />
       <main className="max-w-7xl mx-auto px-4 py-8 overflow-x-hidden ">
         
 

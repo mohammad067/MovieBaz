@@ -1,23 +1,32 @@
 import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom";
+import { normalizeMovie } from "../utils/normalizeMovie";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
 import { Autoplay, Pagination } from "swiper/modules";
+import { m } from "framer-motion";
 
 function Slider({ movies = [] }) {
   const swiperRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const sliderMovies = movies.slice(0, 4);
+  const normalizeMovies =sliderMovies.map(normalizeMovie);
+
+
+  if (!normalizeMovies.length) return null;
+
+  const safeIndex = activeIndex % normalizeMovies.length;
 
   // چرخش کارت‌ها
   const rotatedMovies = [
-    ...sliderMovies.slice(activeIndex),
-    ...sliderMovies.slice(0, activeIndex),
+    ...normalizeMovies.slice(safeIndex),
+    ...normalizeMovies.slice(0, safeIndex),
   ];
-  if (!sliderMovies.length) return null;
+
 
   return (
     <div className="w-full mt-16 h-[70vh] md:h-[85vh]">
@@ -34,21 +43,19 @@ function Slider({ movies = [] }) {
         className="w-full h-full "
       >
         {/* اسلاید اصلی */}
-        {sliderMovies.map((movie) => {
-          const title = movie.title || movie.name;
+        {normalizeMovies.map((movie) => {
 
-          const backdrop = movie.backdrop_path
-            ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-            : `https://image.tmdb.org/t/p/original${movie.poster_path}`;
 
           return (
+            
             <SwiperSlide key={movie.id}>
               <div className="relative w-full h-full ">
                 <img
-                  src={backdrop}
-                  alt={title}
+                  src={movie.backdrop}
+                  alt={movie.title}
                   className="w-full h-full object-cover"
                 />
+                
 
                 {/* افکت تاریکی */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
@@ -58,7 +65,7 @@ function Slider({ movies = [] }) {
                 <div className="absolute max-w-3xl inset-0 z-10 flex items-end md:items-center justify-start px-6 md:px-16 pb-10 md:pb-0">
                   <div className="">
                     <h2 className="text-2xl md:text-6xl font-bold mb-5 drop-shadow-4xl">
-                      {title}
+                      {movie.title}
                     </h2>
 
                     <div className="flex flex-col items-start gap-2">
@@ -67,7 +74,7 @@ function Slider({ movies = [] }) {
                       </span>
 
                       <span className="text-white font-bold text-2xl">
-                        {movie.vote_average?.toFixed(1)}
+                        {movie.rating}
                         <span className="text-xl font-normal">/ 10</span>
                       </span>
                     </div>
@@ -95,37 +102,55 @@ function Slider({ movies = [] }) {
         {/* همون جای قبلی خودت حفظ شده */}
         <div className="absolute bottom-1/4 left-0 -right-1/2 z-20 hidden md:flex justify-center gap-1 overflow-hidden py-3 ">
           {rotatedMovies.map((movie, index) => {
-            const poster = `https://image.tmdb.org/t/p/w200${movie.poster_path}`;
 
             return (
-              <div
-                key={movie.id}
-                onClick={() =>
-                  swiperRef.current.slideToLoop(
-                    sliderMovies.findIndex((m) => m.id === movie.id)
+              <Link key={movie.id} to={`/${movie.type}/${movie.id}/${encodeURIComponent(movie.slug)}`}
+              
+              onClick={(e)=>{
+
+                e.preventDefault();
+
+                swiperRef.current?.slideToLoop(
+                  normalizeMovies.findIndex(
+                    (item)=>item.id=== movie.id
                   )
-                }
-                className={`cursor-pointer py-4 translate-x-1/2 relative ${
-                  index === 0
-                    ? "scale-110 opacity-100 rounded-sm mx-4"
-                    : "scale-90 opacity-50 hover:opacity-80 rounded-sm"
-                }`}
+                );
+
+                setTimeout(() => {
+                  window.location.href=`/${movie.type}/${movie.id}/${encodeURIComponent(movie.slug)}`;
+                  
+                }, 300);
+              }}
+              className={`cursor-pointer py-4 translate-x-1/2 relative hover:scale-110 transition duration-300 mx-1 ${
+
+                index=== 0
+                ? "opacity-100"
+                : "opacity-50 hover:opacity-80"
+
+              }`}
               >
+
                 <img
-                  src={poster}
-                  alt={movie.title || movie.name}
-                  className="w-48 h-72 object-cover rounded-lg border border-white/20  "
+                  src={movie.poster}
+                  alt={movie.title}
+                  className="w-48 h-72 object-cover rounded-lg border border-white/20"
                 />
                 <div className="absolute bottom-4 left-0 right-0 bg-black/70 p-2 rounded-b-lg">
+
+                  {/* عنوان */}
                   <h3 className="text-white text-sm font-bold truncate">
-                    {movie.title || movie.name}
+                    {movie.title}
                   </h3>
-                  <p className="text-white text-xs mt-1  px-2 py-1 rounded w-fit j">
-                    {" "}
-                    📅 {movie.release_date || movie.first_air_date}{" "}
+
+                  {/* تاریخ */}
+                  <p className="text-white text-xs mt-1 px-2 py-1 rounded w-fit">
+                    📅 {movie.date}
                   </p>
                 </div>
-              </div>
+              
+              
+              </Link>
+
             );
           })}
         </div>
@@ -135,3 +160,4 @@ function Slider({ movies = [] }) {
 }
 
 export default Slider;
+
