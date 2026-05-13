@@ -7,9 +7,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
+
 function MovieDetails() {
-  const { id, type, slug } = useParams();
+  const { id, type } = useParams();
   const [data, setData] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [showTrailer, setShowTrailer] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -17,8 +20,9 @@ function MovieDetails() {
     const fetchDetails = async () => {
       try {
         setLoading(true);
-        const res = await getDetails(type, id);
+        const res = await getDetails(type, id, true); // videos + credits
         setData(res);
+        setVideos(res.videos?.results || []);
       } catch (err) {
         console.error(err);
         setError(true);
@@ -30,8 +34,7 @@ function MovieDetails() {
   }, [id, type]);
 
   if (loading) return <p className="text-white text-center mt-10">Loading...</p>;
-  if (error) return <p className="text-red-500 text-center mt-10">Error loading data</p>;
-  if (!data) return null;
+  if (error || !data) return <p className="text-red-500 text-center mt-10">Error loading data</p>;
 
   const title = data.title || data.name;
   const date = data.release_date || data.first_air_date;
@@ -41,10 +44,16 @@ function MovieDetails() {
 
   const cast = data.credits?.cast || [];
 
-  return (
-    <div className="text-white min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+  // پیدا کردن تریلر
+  const trailer = videos.find((v) =>
+    v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser")
+  ) || videos.find((v) => v.site === "YouTube");
 
-      <div className="relative top-16 w-full min-h-screen md:min-h-[600px] flex items-end">
+  return (
+    <div className="text-white min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 ">
+
+      {/* Hero Section */}
+      <div className="relative top-16 w-full min-h-screen md:min-h-[650px] flex items-end my-2.5">
         {backdropUrl && (
           <>
             <img
@@ -52,19 +61,15 @@ function MovieDetails() {
               alt={title}
               className="absolute inset-0 w-full h-full object-cover"
             />
-            {/* Overlays: تیره کردن پس‌زمینه برای خوانایی متن */}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-950/60 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/30 " />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/30" />
           </>
         )}
 
-        {/* محتوا */}
-        {/* Container: حداکثر عرض و فاصله از لبه‌ها */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 w-full">
-          {/* Flex: در موبایل ستون، در دسکتاپ ردیف */}
-          <div className="flex flex-col sm:flex-row md:flex-row gap-8 items-start sm:items-start md:items-start">
+          <div className="flex flex-col sm:flex-row gap-8 items-start">
 
-            {/* Poster: سایز داینامیک و وسط‌چین در موبایل */}
+            {/* Poster */}
             <div className="flex-shrink-0">
               <img
                 src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
@@ -73,14 +78,14 @@ function MovieDetails() {
               />
             </div>
 
-            {/* Info: تراز متن در موبایل وسط، در دسکتاپ چپ */}
+            {/* Information */}
             <div className="flex flex-col gap-4 text-start md:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 {title}
               </h1>
 
               <div className="flex flex-wrap justify-start items-center gap-4 text-sm sm:text-base text-slate-300">
-                <span className="flex items-center gap-1  ">📅 {date?.split('-').join('/')}</span>
+                <span className="flex items-center gap-1">📅 {date?.split('-').join('/')}</span>
                 <span className="flex items-center gap-1 text-yellow-400 font-bold">
                   ⭐ {data.vote_average?.toFixed(1)}
                 </span>
@@ -89,41 +94,78 @@ function MovieDetails() {
                 </span>
               </div>
 
-              {/* ژانرها */}
-              <div className="flex flex-wrap justify-start md:justify-start gap-3">
+              {/* Genres */}
+              <div className="flex flex-wrap gap-3">
                 {data.genres?.map((g) => (
                   <span
                     key={g.id}
-                    className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-medium transition hover:bg-indigo-500/20 cursor-pointer"
+                    className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-medium hover:bg-indigo-500/20 transition"
                   >
                     {g.name}
                   </span>
                 ))}
               </div>
 
-              <p className="text-slate-300 max-w-2xl text-sm sm:text-base leading-relaxed mt-2 italic opacity-90">
-                {data.tagline}
-              </p>
+              {/* Tagline */}
+              {data.tagline && (
+                <p className="text-slate-300 text-lg italic opacity-90">
+                  {data.tagline}
+                </p>
+              )}
 
-              <div className="mt-2">
-                <h3 className="text-lg font-semibold mb-1">Overview</h3>
-                <p className="text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed ">
+              {/* Watch Trailer Button - دقیقاً زیر Tagline */}
+              {trailer && (
+                <button
+                  onClick={() => setShowTrailer(true)}
+                  className="mt-4 inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 active:bg-red-800 transition-all duration-300 text-white text-lg font-semibold px-8 py-3.5 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 w-fit"
+                >
+                  <span className="text-2xl">▶</span>
+                  Watch Trailer
+                </button>
+              )}
+
+              {/* Overview */}
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold mb-2">Overview</h3>
+                <p className="text-slate-400 max-w-3xl leading-relaxed">
                   {data.overview}
                 </p>
               </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
-      <div className=" mt-16 gap-6 max-w-8xl mx-auto px-4 py-2 max-w-7xl ">
-        <h3 className="text-lg font-semibold mb-2">Top Cast</h3>
-        <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-4 rounded ">
+      {/* Trailer Modal */}
+      {showTrailer && trailer && (
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-5xl">
+            <button
+              onClick={() => setShowTrailer(false)}
+              className="absolute -top-12 right-0 text-white text-5xl hover:text-red-500 transition-colors z-10"
+            >
+              ✕
+            </button>
 
+            <div className="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&rel=0`}
+                title={`${title} Trailer`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
 
+      {/* Top Cast Section */}
+      <div className="mt-16 max-w-7xl mx-auto px-4 py-2">
+        <h3 className="text-lg font-semibold mb-4">Top Cast</h3>
+        <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-4 rounded">
           <Swiper
             modules={[Navigation, Pagination, FreeMode]}
             spaceBetween={12}
@@ -137,42 +179,32 @@ function MovieDetails() {
               1024: { slidesPerView: 6, spaceBetween: 10 },
               1280: { slidesPerView: 8, spaceBetween: 10 },
             }}
-            className="py-4 "
+            className="py-4"
           >
-
             {cast.map((c) => (
               <SwiperSlide key={c.id}>
                 <div className="flex flex-col items-center text-center py-1 cursor-pointer">
-
                   <img
                     src={
                       c.profile_path
-                      ? `https://image.tmdb.org/t/p/w185${c.profile_path}`
-                      : `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(c.name)}`
-
-                  }
+                        ? `https://image.tmdb.org/t/p/w185${c.profile_path}`
+                        : `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(c.name)}`
+                    }
                     alt={c.name}
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border border-white/20 shadow-lg hover:scale-105 transition-transform duration-300"
                   />
-
                   <p className="text-white font-medium mt-2 text-sm line-clamp-2">
                     {c.name}
                   </p>
-
                   <p className="text-slate-400 text-xs line-clamp-2 mt-1">
                     {c.character}
                   </p>
-
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
-
-
-
-
     </div>
   );
 }

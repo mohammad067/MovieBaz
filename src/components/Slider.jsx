@@ -14,8 +14,7 @@ function Slider({ movies = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const sliderMovies = movies.slice(0, 4);
-  const normalizeMovies =sliderMovies.map(normalizeMovie);
-
+  const normalizeMovies = sliderMovies.map(normalizeMovie);
 
   if (!normalizeMovies.length) return null;
 
@@ -27,9 +26,8 @@ function Slider({ movies = [] }) {
     ...normalizeMovies.slice(0, safeIndex),
   ];
 
-
   return (
-    <div className="w-full mt-16 h-[70vh] md:h-[85vh]">
+    <div className="w-full mt-[75px] h-[70vh] md:h-[85vh]">
       <Swiper
         loop={true}
         modules={[Pagination, Autoplay]}
@@ -44,10 +42,7 @@ function Slider({ movies = [] }) {
       >
         {/* اسلاید اصلی */}
         {normalizeMovies.map((movie) => {
-
-
           return (
-            
             <SwiperSlide key={movie.id}>
               <div className="relative w-full h-full ">
                 <img
@@ -55,7 +50,6 @@ function Slider({ movies = [] }) {
                   alt={movie.title}
                   className="w-full h-full object-cover"
                 />
-                
 
                 {/* افکت تاریکی */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
@@ -83,8 +77,7 @@ function Slider({ movies = [] }) {
 
                 {/* دکمه پلی */}
               </div>
-                      <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none" />
-
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none" />
             </SwiperSlide>
           );
         })}
@@ -102,41 +95,31 @@ function Slider({ movies = [] }) {
         {/* همون جای قبلی خودت حفظ شده */}
         <div className="absolute bottom-1/4 left-0 -right-1/2 z-20 hidden md:flex justify-center gap-1 overflow-hidden py-3 ">
           {rotatedMovies.map((movie, index) => {
-
             return (
-              <Link key={movie.id} to={`/${movie.type}/${movie.id}/${encodeURIComponent(movie.slug)}`}
-              
-              onClick={(e)=>{
+              <Link
+                key={movie.id}
+                to={`/${movie.type}/${movie.id}/${encodeURIComponent(movie.slug)}`}
+                onClick={(e) => {
+                  e.preventDefault();
 
-                e.preventDefault();
+                  swiperRef.current?.slideToLoop(
+                    normalizeMovies.findIndex((item) => item.id === movie.id),
+                  );
 
-                swiperRef.current?.slideToLoop(
-                  normalizeMovies.findIndex(
-                    (item)=>item.id=== movie.id
-                  )
-                );
-
-                setTimeout(() => {
-                  window.location.href=`/${movie.type}/${movie.id}/${encodeURIComponent(movie.slug)}`;
-                  
-                }, 300);
-              }}
-              className={`cursor-pointer py-4 translate-x-1/2 relative hover:scale-110 transition duration-300 mx-1 ${
-
-                index=== 0
-                ? "opacity-100"
-                : "opacity-50 hover:opacity-80"
-
-              }`}
+                  setTimeout(() => {
+                    window.location.href = `/${movie.type}/${movie.id}/${encodeURIComponent(movie.slug)}`;
+                  }, 300);
+                }}
+                className={`cursor-pointer py-4 translate-x-1/2 relative hover:scale-110 transition duration-300 mx-1 ${
+                  index === 0 ? "scale-105 opacity-100 mx-1" : "opacity-50 hover:opacity-80"
+                }`}
               >
-
                 <img
                   src={movie.poster}
                   alt={movie.title}
                   className="w-48 h-72 object-cover rounded-lg border border-white/20"
                 />
                 <div className="absolute bottom-4 left-0 right-0 bg-black/70 p-2 rounded-b-lg">
-
                   {/* عنوان */}
                   <h3 className="text-white text-sm font-bold truncate">
                     {movie.title}
@@ -147,10 +130,7 @@ function Slider({ movies = [] }) {
                     📅 {movie.date}
                   </p>
                 </div>
-              
-              
               </Link>
-
             );
           })}
         </div>
@@ -160,4 +140,3 @@ function Slider({ movies = [] }) {
 }
 
 export default Slider;
-

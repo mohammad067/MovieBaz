@@ -2,10 +2,10 @@ import { div, footer } from "framer-motion/client";
 
 function Footer() {
     return (
-        <footer className="bg-slate-900 border-t-2 border-slate-800 overflow-x-hidden relative z-10 py-2 px-3">
+        <footer className="bg-slate-900 border-t-2 border-slate-800 overflow-x-hidden relative z-10 py-2 px-3  ">
               
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-10 ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-3 py-8 max-w-7xl mx-auto ">
 
                        
                         <div>
@@ -29,7 +29,7 @@ function Footer() {
                             <h3 className="text-base md:text-lg font-semibold text-zinc-900 mb-4">
                                 Never Miss the Best Deals
                             </h3>
-                            <div className="flex w-72 max-w-72 items-center rounded-full border border-zinc-200 overflow-hidden h-11">
+                            <div className="flex w-72 max-w-full items-center rounded-full border border-zinc-200 overflow-hidden h-11">
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
