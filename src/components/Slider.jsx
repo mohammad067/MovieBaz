@@ -27,38 +27,38 @@ function Slider({ movies = [] }) {
   ];
 
   return (
-    <div className="w-full mt-[75px] h-[70vh] md:h-[85vh]">
+    <div className="w-full h-[60vh] md:h-[75vh] ">
       <Swiper
         loop={true}
         modules={[Pagination, Autoplay]}
         autoplay={{
-          delay: 2000,
+          delay: 50000,
           disableOnInteraction: false,
         }}
         pagination={{ clickable: true }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        className="w-full h-full "
+        className="w-full h-full relative"
       >
         {/* اسلاید اصلی */}
         {normalizeMovies.map((movie) => {
           return (
             <SwiperSlide key={movie.id}>
-              <div className="relative w-full h-full ">
+              <div className="relative w-full h-full overflow-hidden">
                 <img
                   src={movie.backdrop}
                   alt={movie.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover "
                 />
 
                 {/* افکت تاریکی */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-l from-black via-black/50 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-stone-950  to-transparent pointer-events-none z-10" />
                 {/* متن */}
-                <div className="absolute max-w-3xl inset-0 z-10 flex items-end md:items-center justify-start px-6 md:px-16 pb-10 md:pb-0">
+                <div className="absolute max-w-2xl inset-0 z-10 flex items-end md:items-center justify-start px-6 md:px-16 pb-10 md:pb-0">
                   <div className="">
-                    <h2 className="text-2xl md:text-6xl font-bold mb-5 drop-shadow-4xl">
+                    <h2 className="text-2xl md:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl line-clamp-2 md:line-clamp-3 leading-tight ">
                       {movie.title}
                     </h2>
 
@@ -77,7 +77,6 @@ function Slider({ movies = [] }) {
 
                 {/* دکمه پلی */}
               </div>
-              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none" />
             </SwiperSlide>
           );
         })}
@@ -111,7 +110,9 @@ function Slider({ movies = [] }) {
                   }, 300);
                 }}
                 className={`cursor-pointer py-4 translate-x-1/2 relative hover:scale-110 transition duration-300 mx-1 ${
-                  index === 0 ? "scale-105 opacity-100 mx-1" : "opacity-50 hover:opacity-80"
+                  index === 0
+                    ? "scale-105 opacity-100 mx-1"
+                    : "opacity-50 hover:opacity-80"
                 }`}
               >
                 <img

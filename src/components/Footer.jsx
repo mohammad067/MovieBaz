@@ -2,10 +2,10 @@ import { div, footer } from "framer-motion/client";
 
 function Footer() {
     return (
-        <footer className="bg-slate-900 border-t-2 border-slate-800 overflow-x-hidden relative z-10 py-2 px-3  ">
+        <footer className="bg-stone-800/90 border-t-4 border-stone-700/70 overflow-x-hidden relative z-10 py-2 px-3">
               
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-3 py-8 max-w-7xl mx-auto ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-3 py-8 max-w-8xl mx-24 ">
 
                        
                         <div>

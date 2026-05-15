@@ -50,13 +50,13 @@ function MovieCard({ film }) {
 
   return (
     <Link to={`/${type}/${id}/${encodeURIComponent(slug)}`}>
-      <div className="group bg-slate-900 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer h-full border border-slate-800 relative">
+      <div className="group bg-stone-800/90 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer h-full border-2 border-slate-500 relative">
 
-        <div className="relative overflow-hidden w-full aspect-[2/3]">
+        <div className="relative overflow-hidden w-full aspect-[2/3] rounded">
           <img
             src={imageUrl}
             alt={`پوستر ${movietitle}`}
-            className="object-cover transition-all duration-300 group-hover:scale-105 w-full h-full"
+            className="object-cover transition-all duration-300 group-hover:scale-105 w-full h-full "
             loading="lazy"
           />
 

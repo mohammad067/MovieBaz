@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetails } from "../services/tmdb";
+
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -10,9 +12,11 @@ import { Navigation, Pagination, FreeMode } from "swiper/modules";
 
 function MovieDetails() {
   const { id, type } = useParams();
+
   const [data, setData] = useState(null);
   const [videos, setVideos] = useState([]);
   const [showTrailer, setShowTrailer] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -20,7 +24,9 @@ function MovieDetails() {
     const fetchDetails = async () => {
       try {
         setLoading(true);
-        const res = await getDetails(type, id, true); // videos + credits
+
+        const res = await getDetails(type, id);
+
         setData(res);
         setVideos(res.videos?.results || []);
       } catch (err) {
@@ -30,30 +36,72 @@ function MovieDetails() {
         setLoading(false);
       }
     };
+
     fetchDetails();
   }, [id, type]);
 
-  if (loading) return <p className="text-white text-center mt-10">Loading...</p>;
-  if (error || !data) return <p className="text-red-500 text-center mt-10">Error loading data</p>;
+  if (loading) {
+    return <p className="text-white text-center mt-10">Loading...</p>;
+  }
+
+  if (error || !data) {
+    return <p className="text-red-500 text-center mt-10">Error loading data</p>;
+  }
 
   const title = data.title || data.name;
+
   const date = data.release_date || data.first_air_date;
+
   const backdropUrl = data.backdrop_path
     ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
     : `https://image.tmdb.org/t/p/w500${data.poster_path}`;
 
   const cast = data.credits?.cast || [];
 
-  // پیدا کردن تریلر
-  const trailer = videos.find((v) =>
-    v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser")
-  ) || videos.find((v) => v.site === "YouTube");
+  // پیدا کردن بهترین تریلر
+  const trailer =
+    videos.find((v) => v.type === "Trailer" && v.site === "YouTube") ||
+    videos.find((v) => v.site === "YouTube") ||
+    videos[0] ||
+    null;
+
+  // ساخت لینک iframe
+  const getTrailerUrl = (video) => {
+    if (!video) return "";
+
+    switch (video.site) {
+      case "YouTube":
+        return `https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0`;
+
+      case "Vimeo":
+        return `https://player.vimeo.com/video/${video.key}?autoplay=1`;
+
+      default:
+        return "";
+    }
+  };
+
+  // باز کردن تریلر
+  const handleTrailer = () => {
+    if (!trailer) return;
+
+    // اگر یوتیوب بود داخل مودال باز شه
+    if (trailer.site === "YouTube" || trailer.site === "Vimeo") {
+      setShowTrailer(true);
+      return;
+    }
+
+    // fallback => سایت TMDB
+    window.open(
+      `https://www.themoviedb.org/${type}/${id}#play=${trailer.key}`,
+      "_blank",
+    );
+  };
 
   return (
-    <div className="text-white min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 ">
-
+    <div className="text-white min-h-screen bg-gradient-to-b from-stone-600/70 via-stone-700/80 to-stone-800/90 py-3">
       {/* Hero Section */}
-      <div className="relative top-16 w-full min-h-screen md:min-h-[650px] flex items-end my-2.5">
+      <div className="relative top-16 w-full min-h-screen md:min-h-[650px] flex items-end">
         {backdropUrl && (
           <>
             <img
@@ -61,14 +109,15 @@ function MovieDetails() {
               alt={title}
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-950/60 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/30" />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-950/60 to-transparent" />
+
+            <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-sotne-950/80 to-stone-950/30" />
           </>
         )}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 w-full">
           <div className="flex flex-col sm:flex-row gap-8 items-start">
-
             {/* Poster */}
             <div className="flex-shrink-0">
               <img
@@ -85,10 +134,14 @@ function MovieDetails() {
               </h1>
 
               <div className="flex flex-wrap justify-start items-center gap-4 text-sm sm:text-base text-slate-300">
-                <span className="flex items-center gap-1">📅 {date?.split('-').join('/')}</span>
+                <span className="flex items-center gap-1">
+                  📅 {date?.split("-").join("/")}
+                </span>
+
                 <span className="flex items-center gap-1 text-yellow-400 font-bold">
                   ⭐ {data.vote_average?.toFixed(1)}
                 </span>
+
                 <span className="bg-white/10 px-2 py-0.5 rounded border border-white/20">
                   {data.status}
                 </span>
@@ -113,10 +166,10 @@ function MovieDetails() {
                 </p>
               )}
 
-              {/* Watch Trailer Button - دقیقاً زیر Tagline */}
+              {/* Trailer Button */}
               {trailer && (
                 <button
-                  onClick={() => setShowTrailer(true)}
+                  onClick={handleTrailer}
                   className="mt-4 inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 active:bg-red-800 transition-all duration-300 text-white text-lg font-semibold px-8 py-3.5 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 w-fit"
                 >
                   <span className="text-2xl">▶</span>
@@ -127,6 +180,7 @@ function MovieDetails() {
               {/* Overview */}
               <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-2">Overview</h3>
+
                 <p className="text-slate-400 max-w-3xl leading-relaxed">
                   {data.overview}
                 </p>
@@ -151,33 +205,52 @@ function MovieDetails() {
               <iframe
                 width="100%"
                 height="100%"
-                src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&rel=0`}
+                src={getTrailerUrl(trailer)}
                 title={`${title} Trailer`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-              ></iframe>
+              />
             </div>
           </div>
         </div>
       )}
 
-      {/* Top Cast Section */}
+      {/* Top Cast */}
       <div className="mt-16 max-w-7xl mx-auto px-4 py-2">
         <h3 className="text-lg font-semibold mb-4">Top Cast</h3>
-        <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-4 rounded">
+
+        <div className="bg-stone-900/50 backdrop-blur-md  border border-white/15 p-4 rounded-md">
           <Swiper
             modules={[Navigation, Pagination, FreeMode]}
             spaceBetween={12}
             slidesPerView={2}
             freeMode={true}
             breakpoints={{
-              320: { slidesPerView: 2, spaceBetween: 8 },
-              480: { slidesPerView: 3, spaceBetween: 10 },
-              640: { slidesPerView: 4, spaceBetween: 12 },
-              768: { slidesPerView: 5, spaceBetween: 14 },
-              1024: { slidesPerView: 6, spaceBetween: 10 },
-              1280: { slidesPerView: 8, spaceBetween: 10 },
+              320: {
+                slidesPerView: 2,
+                spaceBetween: 8,
+              },
+              480: {
+                slidesPerView: 3,
+                spaceBetween: 10,
+              },
+              640: {
+                slidesPerView: 4,
+                spaceBetween: 12,
+              },
+              768: {
+                slidesPerView: 5,
+                spaceBetween: 14,
+              },
+              1024: {
+                slidesPerView: 6,
+                spaceBetween: 10,
+              },
+              1280: {
+                slidesPerView: 8,
+                spaceBetween: 10,
+              },
             }}
             className="py-4"
           >
@@ -188,14 +261,18 @@ function MovieDetails() {
                     src={
                       c.profile_path
                         ? `https://image.tmdb.org/t/p/w185${c.profile_path}`
-                        : `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(c.name)}`
+                        : `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(
+                            c.name,
+                          )}`
                     }
                     alt={c.name}
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border border-white/20 shadow-lg hover:scale-105 transition-transform duration-300"
                   />
+
                   <p className="text-white font-medium mt-2 text-sm line-clamp-2">
                     {c.name}
                   </p>
+
                   <p className="text-slate-400 text-xs line-clamp-2 mt-1">
                     {c.character}
                   </p>

@@ -1,5 +1,11 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -11,9 +17,15 @@ import MovieGrid from "./components/MovieGrid";
 
 import { searchMulti as searchMovies } from "./services/tmdb";
 
-function App() {
+function AppContent() {
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const location = useLocation();
+
+  // هر وقت صفحه تغییر کنه، overlay سرچ بسته شه
+  useEffect(() => {
+    setHasSearched(false);
+  }, [location.pathname]);
 
   const handleSearch = async (text) => {
     // اگر سرچ خالی شد
@@ -34,44 +46,44 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
+      
+      <Navbar onSearch={handleSearch} />
 
-        <Navbar onSearch={handleSearch} />
-
-        {/* overlay سرچ */}
-        {hasSearched && (
-          <div className="fixed inset-0 z-[60] bg-slate-950/95 pt-28 px-4 overflow-y-auto">
-
-            <div className="max-w-7xl mx-auto">
-
-              <div className="inline-flex items-center justify-center bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 mb-6">
-                <h2 className="text-lg md:text-2xl">
-                  Search Results
-                </h2>
-              </div>
-
-              <MovieGrid
-                movies={searchResults.slice(0, 100)}
-                hasSearched={true}
-              />
+      {/* overlay سرچ */}
+      {hasSearched && (
+        <div className="fixed inset-0 z-[60] bg-slate-950/95 pt-28 px-4 overflow-y-auto">
+          <div className="max-w-8xl mx-24">
+            <div className="inline-flex items-center justify-center bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 mb-6">
+              <h2 className="text-lg md:text-2xl">Search Results</h2>
             </div>
+
+            <MovieGrid
+              movies={searchResults.slice(0, 100)}
+              hasSearched={true}
+            />
           </div>
-        )}
+        </div>
+      )}
 
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
 
-          <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Home />} />
 
-          <Route
-            path="/:type/:id/:slug"
-            element={<MovieDetails />}
-          />
-        </Routes>
+        <Route path="/:type/:id/:slug" element={<MovieDetails />} />
+      </Routes>
 
-        <Footer />
-      </div>
+      <Footer />
+    </div>
+  );
+}
+
+// BrowserRouter رو اینجا wraps کردیم تا useLocation توی AppContent جواب بده
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

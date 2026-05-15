@@ -96,10 +96,10 @@ export async function getTrending(timeWindow = "week") {   // week بهتره ب
 // 🎬 گرفتن جزئیات (داینامیک)
 export async function getDetails(type, id) {
   const res = await fetch(
-    `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits,videos,similar` //برای
+    `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits,videos,similar,images` //برای
   );
 
-  if (!res.ok) throw new Error("Details Error");
+  if (!res.ok) throw new Error(`Failed to fetch ${type} details`);
 
   return res.json();
 }

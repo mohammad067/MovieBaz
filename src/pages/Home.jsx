@@ -45,12 +45,13 @@ function Home({searchText}) {
 
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden ">
-     
+    <div className="min-h-screen bg-stone-800/90 text-white overflow-x-hidden ">
         <Slider movies={PopularMovies}/>
         
-     
-      <main className="max-w-7xl mx-auto px-4 py-8 overflow-x-hidden ">
+
+
+
+      <main className="max-w-8xl mx-auto md:mx-24 px-4 py-8 overflow-x-hidden ">
 
         <div className="space-y-2 flex flex-col">
 
@@ -77,7 +78,7 @@ function Home({searchText}) {
           <section>
             <div className="inline-flex items-center justify-center bg-slate-800 px-3 py-2 sm:px-4 sm:py-2 md:px-4 md:py-2 rounded-lg mx-1">
               <h2 className="text-xs sm:text-lg md:text-2xl leading-none">
-                TV Shows
+                Series
               </h2>
             </div>
 
