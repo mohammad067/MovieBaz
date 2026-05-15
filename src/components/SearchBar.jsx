@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, X } from "lucide-react";
+import { Play, Search, X } from "lucide-react";
 
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
@@ -40,7 +40,7 @@ function SearchBar({ onSearch }) {
         {isInputVisible && (
           <motion.div
             initial={{ width: 40, opacity: 0 }}
-            animate={{ width: 250, opacity: 1 }}
+            animate={{ width: 350, opacity: 1 }}
             exit={{ width: 40, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="absolute right-0 flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-full overflow-hidden h-full"
@@ -77,6 +77,7 @@ function SearchBar({ onSearch }) {
           className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-colors border border-transparent hover:border-white/10 text-slate-300"
         >
           <Search size={20} />
+          
         </motion.button>
       )}
     </form>

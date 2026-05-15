@@ -4,6 +4,7 @@ import LogoName from "../assets/images/logo/title-moviebaz.png";
 import Logo from "../assets/images/logo/logo.png";
 import { User } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import Home from "../pages/Home";
 
 function Navbar({ onSearch }) {
   const [isScrolled, setScrolled] = useState(false);
@@ -25,23 +26,26 @@ function Navbar({ onSearch }) {
     `rounded-full transition-all duration-300 whitespace-nowrap px-4 py-2 text-sm font-medium
      ${
        isActive
-         ? "bg-white text-stone-950 shadow-[0_0_15px_rgba(250,255,255,0.5)]" // زرد و متن تیره برای لینک فعال
-         : "text-[#6D676E] hover:text-[#FBFFFE] hover:bg-white/5" // خاکستری برای غیرفعال
+         ? "bg-white text-stone-950 shadow-[0_0_15px_rgba(250,255,255,0.5)]" 
+         : "text-[#6D676E] hover:text-[#FBFFFE] hover:bg-white/5" 
      }`;
 
+
   return (
+
+
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all py-2 duration-500 ease-in-out ${
         isScrolled
           ? "bg-stone-800/90  backdrop-blur-md shadow-lg"
           : "bg-gradient-to-b from-black/50 via-black/30 to-transparent py-2 "
       } `}
     >
-      <div className="max-w-8xl mx-auto md:mx-28 px-1 py-4 flex items-center justify-center gap-2">
+      <div className="max-w-8xl mx-auto md:mx-28 px-1 py-1 flex items-center justify-center gap-2">
         {/* logo */}
         <div className="flex items-center gap-2 w-1/3">
-          <img src={LogoName} alt="" className="w-auto h-10 md:h-12 mt-6" />
-          <img src={Logo} alt="" className="w-auto h-12 md:h-16" />
+          <img src={LogoName} alt="LogoName" className="w-auto h-10 md:h-9 mt-5" />
+          <img src={Logo} alt="Logo" className="w-auto h-12 md:h-10 mt-2" />
         </div>
 
         {/* nav */}
