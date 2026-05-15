@@ -41,7 +41,7 @@ function Slider({ movies = [] }) {
         loop={true}
         modules={[Pagination, Autoplay]}
         autoplay={{
-          delay: 50000,
+          delay: 2000,
           disableOnInteraction: false,
         }}
         pagination={{ clickable: true }}
@@ -96,7 +96,7 @@ function Slider({ movies = [] }) {
     <div className="absolute w-44 h-44 border border-white/20 rounded-full" />
 
     {/* دایره وسط */}
-    <div className="absolute w-32 h-32 border border-white/40 rounded-full" />
+    <div className="absolute w-32 h-32 border border-white/40 rounded-full" /> 
 
     {/* دکمه اصلی */}
     <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:scale-95 transition duration-300">
