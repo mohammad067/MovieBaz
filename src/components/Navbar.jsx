@@ -4,8 +4,6 @@ import LogoName from "../assets/images/logo/title-moviebaz.png";
 import Logo from "../assets/images/logo/logo.png";
 import { User } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import Home from "../pages/Home";
-
 function Navbar({ onSearch }) {
   const [isScrolled, setScrolled] = useState(false);
 
