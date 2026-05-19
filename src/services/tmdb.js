@@ -2,8 +2,8 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 // تابع fetch ساده
-async function fetchFromTMDB(endpoint) {
-  const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}`);
+async function fetchFromTMDB(endpoint, page=1) {
+  const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}&page=${page}`);
 
 
   if (!res.ok) throw new Error("API Error");
@@ -55,14 +55,31 @@ export async function getNowPlayingMovies() {
 }
 
 // 🔥 سریال‌ها
-export async function getTvShows() {
-  const data = await fetchFromTMDB("/discover/tv");
-  return addMediaType(data, "tv");
+export async function getTvShows(page = 1) {
+  const [page1, page2] = await Promise.all([
+    fetchFromTMDB(`/discover/tv`, page * 2 - 1),
+    fetchFromTMDB(`/discover/tv`, page * 2),
+  ]);
+
+  const combined = [...page1, ...page2].slice(0, 30);
+  return addMediaType(combined, "tv");
 }
+
+
+
 // 🔥 فیلم ها
-export async function getMovies() {
-  const data = await fetchFromTMDB("/discover/movie");
-  return addMediaType(data, "movie");
+// گرفتن فیلم‌ها با پشتیبانی از pagination
+// page: شماره صفحه‌ای که می‌خوایم (پیش‌فرض 1)
+export async function getMovies(page = 1) {
+  // دو صفحه موازی fetch می‌کنیم تا 40 تا بگیریم و 30 تا نشون بدیم
+  const [page1, page2] = await Promise.all([
+    fetchFromTMDB(`/discover/movie`, page * 2 - 1),
+    fetchFromTMDB(`/discover/movie`, page * 2),
+  ]);
+
+  // ترکیب دو صفحه و برگرداندن 30 تای اول
+  const combined = [...page1, ...page2].slice(0, 30);
+  return addMediaType(combined, "movie");
 }
 // 🔍 سرچ (movie + tv)
 export async function searchMulti(query) {

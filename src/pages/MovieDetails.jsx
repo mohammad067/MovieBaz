@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetails } from "../services/tmdb";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -9,7 +8,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
-import { Play } from "lucide-react";
+import { Play,ArrowLeft } from "lucide-react";
+
+import { useNavigate } from "react-router-dom";
 
 function MovieDetails() {
   const { id, type } = useParams();
@@ -118,7 +119,14 @@ function MovieDetails() {
         )}
 
         <div className="relative z-10 max-w-8xl mx-auto md:mx-24 px-4 py-10 w-full">
-          <div className="flex flex-col mt-10 sm:flex-row gap-8 items-start">
+                        <button
+  onClick={() => navigate(-1)}
+  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+>
+  <ArrowLeft className="w-5 h-5" />
+  <span className="text-sm">Back</span>
+</button>
+          <div className="flex flex-col mt-2 sm:flex-row gap-8 items-start">
             {/* Poster */}
             <div className="flex-shrink-0">
               <img
@@ -130,6 +138,7 @@ function MovieDetails() {
 
             {/* Information */}
             <div className="flex flex-col gap-4 text-start md:text-left">
+
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 {title}
               </h1>
@@ -218,7 +227,7 @@ function MovieDetails() {
       )}
 
       {/* Top Cast */}
-      <div className="mt-2 max-w-8xl md:mx-24 mix-blend-saturation px-4 py-2">
+      <div className="mt-2 max-w-8xl mx-auto md:mx-24 px-4 py-2">
         <h3 className="text-lg font-semibold mb-4">Top Cast</h3>
 
         <div className="bg-stone-900/50 backdrop-blur-md  border border-white/15 p-4 rounded-md">

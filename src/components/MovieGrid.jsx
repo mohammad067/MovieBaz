@@ -31,6 +31,7 @@ const filteredMovies = movies.filter((m) => m.poster_path);// فقط فیلم‌
 
 
       breakpoints={{
+        0: { slidesPerView: 1.5, spaceBetween: 9 },   // موبایل خیلی کوچک
         192: { slidesPerView: 2, spaceBetween: 10 },    // موبایل خیلی کوچک
         320: { slidesPerView: 2.5, spaceBetween: 12 },   // موبایل کوچک
         480: { slidesPerView: 3, spaceBetween: 16 },   // موبایل متوسط
@@ -41,8 +42,8 @@ const filteredMovies = movies.filter((m) => m.poster_path);// فقط فیلم‌
       }}
       className="!py-4 !px-1.5 "
     >
-      {filteredMovies.map((movie) => (
-        <SwiperSlide key={movie.id}  >
+      {filteredMovies.map((movie , index) => (
+        <SwiperSlide key={`${movie.media_type}-${movie.id}-${index}`}  >
           <MovieCard film={movie} />
         </SwiperSlide>
       ))}
