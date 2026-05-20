@@ -1,5 +1,5 @@
 {
-  "name": "boking-project",
+  "name": "movie-baz",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.10",
+    "@heroicons/react": "^2.2.0",
     "@react-oauth/google": "^0.13.5",
     "framer-motion": "^12.34.3",
     "jwt-decode": "^4.0.0",

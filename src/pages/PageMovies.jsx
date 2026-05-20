@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { getMovies } from "../services/tmdb";
 import MovieCard from "../components/MovieCard";
 import SkeletonGrid from "../components/SkeletonGrid";
+import { useError } from "../context/ErrorContext"; 
 
-function PageMovies(onError) {
+function PageMovies() {
   // لیست فیلم‌های صفحه جاری
   const [movies, setMovies] = useState([]);
 
@@ -15,8 +16,7 @@ function PageMovies(onError) {
 
   // وضعیت لودینگ
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
+const { triggerError } = useError();
   // هر بار که شماره صفحه عوض شد، فیلم‌های جدید بگیر
   useEffect(() => {
     async function loadMovies() {
@@ -34,7 +34,7 @@ function PageMovies(onError) {
         }
       } catch (err) {
         console.error("خطا در دریافت فیلم‌ها:", err);
-        onError(true);
+        triggerError("Failed to load movies.");
         setMovies([]);
         
         

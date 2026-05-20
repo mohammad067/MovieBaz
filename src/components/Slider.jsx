@@ -60,9 +60,9 @@ function Slider({ movies = [] }) {
         ))}
       </Swiper>
 
-      <div className="absolute inset-0 z-20 flex items-end md:items-center justify-start px-6 md:px-10 lg:px-16 pb-24 md:pb-0 pointer-events-none">
-        <div className="space-y-4 max-w-[45%] md:max-w-[40%] lg:max-w-lg">
-          <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl">
+      <div className="absolute inset-0 z-30 flex items-end md:items-center justify-start px-6 md:px-10 lg:px-16 pb-24 md:pb-0 pointer-events-none">
+        <div className="space-y-4 max-w-[50%] md:max-w-[40%] lg:max-w-lg">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl">
             {activeMovie?.title}
           </h2>
 
@@ -92,7 +92,7 @@ function Slider({ movies = [] }) {
         </div>
       </div>
 
-      <div className="absolute bottom-1/4 left-0 -right-1/2 z-30 hidden md:flex justify-center gap-1 overflow-hidden py-3">
+      <div className="absolute bottom-1/4 left-0 -right-1/2 z-10 hidden md:flex justify-center gap-1 overflow-hidden py-0">
         {/* ✅ key تغییر کرد به id+index تا duplicate نشه */}
         {rotatedMovies.map((movie, index) => (
           <div
@@ -130,12 +130,12 @@ function Slider({ movies = [] }) {
                 >
                   {movie.type === "movie" ? (
                     <>
-                      <Film className="w-3 h-3 inline mr-1 -mt-[1px]" />
+                      <Film className="w-3.5 h-3.5 inline mr-1" />
                       MOVIE
                     </>
                   ) : (
                     <>
-                      <Tv className="w-3 h-3 inline mr-1" />
+                      <Tv className="w-3.5 h-3.5 inline mr-1" />
                       TV
                     </>
                   )}

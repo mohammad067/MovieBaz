@@ -8,9 +8,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
-import { Play,ArrowLeft } from "lucide-react";
+import { Play,ArrowLeft,CalendarDays} from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
+import SkeletonDetails from "../components/SkeletonDetails";
 
 function MovieDetails() {
   const { id, type } = useParams();
@@ -43,7 +44,7 @@ function MovieDetails() {
   }, [id, type]);
 
   if (loading) {
-    return <p className="text-white text-center mt-10">Loading...</p>;
+    return   <SkeletonDetails />;
   }
 
   if (error || !data) {
@@ -58,7 +59,7 @@ function MovieDetails() {
     ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
     : `https://image.tmdb.org/t/p/w500${data.poster_path}`;
 
-  const cast = data.credits?.cast || [];
+  const cast = data.credits?.cast.slice(0, 10) || [];
 
   // پیدا کردن بهترین تریلر
   const trailer =
@@ -119,13 +120,6 @@ function MovieDetails() {
         )}
 
         <div className="relative z-10 max-w-8xl mx-auto md:mx-24 px-4 py-10 w-full">
-                        <button
-  onClick={() => navigate(-1)}
-  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors cursor-pointer"
->
-  <ArrowLeft className="w-5 h-5" />
-  <span className="text-sm">Back</span>
-</button>
           <div className="flex flex-col mt-2 sm:flex-row gap-8 items-start">
             {/* Poster */}
             <div className="flex-shrink-0">
@@ -145,7 +139,7 @@ function MovieDetails() {
 
               <div className="flex flex-wrap justify-start items-center gap-4 text-sm sm:text-base text-slate-300">
                 <span className="flex items-center gap-1">
-                  📅 {date?.split("-").join("/")}
+                    <CalendarDays className="w-5 h-5" /> {date?.split("-").join("/")}
                 </span>
 
                 <span className="flex items-center gap-1 text-yellow-400 font-bold">
@@ -232,11 +226,12 @@ function MovieDetails() {
 
         <div className="bg-stone-900/50 backdrop-blur-md  border border-white/15 p-4 rounded-md">
           <Swiper
-            modules={[Navigation, Pagination, FreeMode]}
-            spaceBetween={12}
-            slidesPerView={2}
+            modules={[ FreeMode]}
+            
             freeMode={true}
             breakpoints={{
+              0:{ slidesPerView: 2,
+                spaceBetween: 8, },
               320: {
                 slidesPerView: 2,
                 spaceBetween: 8,
@@ -254,12 +249,12 @@ function MovieDetails() {
                 spaceBetween: 14,
               },
               1024: {
-                slidesPerView: 6,
+                slidesPerView: 8,
                 spaceBetween: 10,
               },
               1280: {
-                slidesPerView: 8,
-                spaceBetween: 10,
+                slidesPerView: 9,
+                spaceBetween: 12,
               },
             }}
             className="py-4"

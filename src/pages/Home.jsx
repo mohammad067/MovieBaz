@@ -3,6 +3,7 @@ import MovieGrid from "../components/MovieGrid";
 import SkeletonGrid from "../components/SkeletonGrid"; // اضافه کن
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { useError } from "../context/ErrorContext"; // ✅ اضافه کن
 
 import {
   getPopularMovies,
@@ -16,16 +17,17 @@ import {
 import Slider from "../components/Slider";
 import SkeletonSlider from "../components/SkeletonSlider";
 
-function Home({onError }) {
+function Home({ }) {
   const [PopularMovies, setPopularMovies] = useState([]);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [tvShows, setTvShows] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
-  const [discoverMovies, setdiscoverMovies] = useState([]);
+  const [discoverMovies, setDiscoverMovies] = useState([]);
 
   // وضعیت لودینگ - تا وقتی همه دیتاها نیومده true هست
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { triggerError } = useError();
+
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -40,10 +42,10 @@ function Home({onError }) {
         setNowPlayingMovies(nowPlaying);
         setTvShows(tv);
         setTrendingMovies(trending);
-        setdiscoverMovies(discoverMovies);
+        setDiscoverMovies(discoverMovies);
       } catch (error) {
         console.error(error);
-        onError();
+        triggerError(" Failed to load homepage data. ");
       } finally {
         // چه موفق چه ناموفق، لودینگ رو خاموش کن
         setLoading(false);
@@ -51,7 +53,7 @@ function Home({onError }) {
     };
 
     fetchHomeData();
-  }, [onError]);
+  }, []);
 
 
   return (

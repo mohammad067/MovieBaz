@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getTvShows } from "../services/tmdb";
 import MovieCard from "../components/MovieCard";
 import SkeletonGrid from "../components/SkeletonGrid";
+import { useError } from "../context/ErrorContext"; 
 
 function PageSeries() {
   // لیست سریال‌های صفحه جاری ✅ تغییر: movies → series
@@ -15,7 +16,7 @@ function PageSeries() {
 
   // وضعیت لودینگ
   const [loading, setLoading] = useState(true);
-
+const { triggerError } = useError();
   // هر بار که شماره صفحه عوض شد، سریال‌های جدید بگیر ✅ تغییر: کامنت
   useEffect(() => {
     async function loadSeries() {
@@ -34,6 +35,7 @@ function PageSeries() {
       } catch (err) {
         console.error("خطا در دریافت سریال‌ها:", err); // ✅ تغییر: کامنت خطا
         setSeries([]); // ✅ تغییر: setMovies → setSeries
+        triggerError("Failed to load series.");
       } finally {
         setLoading(false);
       }

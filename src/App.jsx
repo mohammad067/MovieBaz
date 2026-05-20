@@ -11,14 +11,13 @@ import MovieGrid from "./components/MovieGrid";
 
 import { searchMulti as searchMovies } from "./services/tmdb";
 import PageSeries from "./pages/PageSeries";
-import { div } from "framer-motion/client";
+import { ErrorProvider, useError } from "./context/ErrorContext";
 
 function AppContent() {
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [globalError, setGlobalError] = useState(null); // ✅ اضافه شد
   const location = useLocation();
-
+const { globalError, clearError } = useError();
   // هر وقت صفحه تغییر کنه، overlay سرچ بسته شه
   useEffect(() => {
     setHasSearched(false);
@@ -45,7 +44,7 @@ function AppContent() {
     if (globalError) {
     return (
       <div className="min-h-screen bg-stone-800/90 flex items-center justify-center px-4">
-<div className="w-full max-w-md rounded-2xl border border-red-500/30 bg-red-500/10 p-8 text-center shadow-2xl">
+<div className="w-full max-w-sm rounded-2xl border border-red-500 bg-red-500/20 p-4 text-center shadow-2xl animate-pulse">
           <div className="mb-4 text-5xl">⚠️</div>
 
           <h1 className="mb-2 text-2xl font-bold text-red-300">
@@ -55,8 +54,8 @@ function AppContent() {
           <p className="text-sm text-red-200/80">
             {globalError.message}
           </p>
-          <button onClick={()=>{setGlobalError(null)
-              window.location.reload();}} 
+          <button onClick={() => { clearError(); window.location.reload(); }}
+
 
              className="mt-6 rounded-xl bg-red-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-red-600" > Retry 
           
@@ -90,13 +89,12 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
 
-        <Route path="/home" element={<Home onError={() => setGlobalError({message : "Failed to load homepage data."})} />} />
-        <Route path="/movies" element={<PageMovies onError={() => setGlobalError({message : "Failed to load homepage data."})} />} />
-        <Route path="/series" element={<PageSeries onError={() => setGlobalError({message : "Failed to load homepage data."})} />} />
+        <Route path="/home" element={<Home/>}/>
+        <Route path="/movies" element={<PageMovies/>} />
+        <Route path="/series" element={<PageSeries/>} />
 
         <Route path="/:type/:id/:slug" element={<MovieDetails />} />
       </Routes>
-
       <Footer />
     </div>
   );
@@ -106,7 +104,8 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+    <ErrorProvider><AppContent /></ErrorProvider>
+      
     </BrowserRouter>
   );
 }
