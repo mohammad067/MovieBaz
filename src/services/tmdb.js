@@ -1,8 +1,7 @@
 const BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-// تابع fetch ساده
-async function fetchFromTMDB(endpoint, page=1) {
+  async function fetchFromTMDB(endpoint, page=1) {
   const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}&page=${page}`);
 
 
@@ -20,13 +19,13 @@ function addMediaType(items, type) {
   }));
 }
 
-// 🔥 محبوب
+//  محبوب
 export async function getPopularMovies() {
   const data = await fetchFromTMDB("/movie/popular");
   return addMediaType(data , "movie");
 }
 
-// 🔥 جدید (movie + tv)
+//  جدید (movie + tv)
 export async function getNowPlayingMovies() {
   const [movies, tv] = await Promise.all([
     fetchFromTMDB("/movie/now_playing"),
@@ -34,8 +33,6 @@ export async function getNowPlayingMovies() {
   ]);
 
   const combined = [...movies, ...tv];
-
-
 
   // مرتب بر اساس تاریخ
   const sorted = combined.sort((a, b) => {
@@ -54,7 +51,7 @@ export async function getNowPlayingMovies() {
   }));
 }
 
-// 🔥 سریال‌ها
+//  سریال‌ها
 export async function getTvShows(page = 1) {
   const [page1, page2] = await Promise.all([
     fetchFromTMDB(`/discover/tv`, page * 2 - 1),
@@ -65,13 +62,8 @@ export async function getTvShows(page = 1) {
   return addMediaType(combined, "tv");
 }
 
-
-
-// 🔥 فیلم ها
-// گرفتن فیلم‌ها با پشتیبانی از pagination
-// page: شماره صفحه‌ای که می‌خوایم (پیش‌فرض 1)
+//  فیلم ها
 export async function getMovies(page = 1) {
-  // دو صفحه موازی fetch می‌کنیم تا 40 تا بگیریم و 30 تا نشون بدیم
   const [page1, page2] = await Promise.all([
     fetchFromTMDB(`/discover/movie`, page * 2 - 1),
     fetchFromTMDB(`/discover/movie`, page * 2),
@@ -81,7 +73,7 @@ export async function getMovies(page = 1) {
   const combined = [...page1, ...page2].slice(0, 30);
   return addMediaType(combined, "movie");
 }
-// 🔍 سرچ (movie + tv)
+//  سرچ (movie + tv)
 export async function searchMulti(query) {
   if (!query.trim()) return [];
 
@@ -93,15 +85,15 @@ export async function searchMulti(query) {
 
   const data = await res.json();
 
-  // فقط movie و tv
+  //  movie و tvفیلتر 
   return data.results.filter(
     (item) => item.media_type === "movie" || item.media_type === "tv"
   );
 }
-export async function getTrending(timeWindow = "week") {   // week بهتره برای اسلایدر
+export async function getTrending(timeWindow = "week") {   
   const data = await fetchFromTMDB(`/trending/all/${timeWindow}`);
 
-  // فقط مواردی که بک‌دراپ دارند
+  //  بک‌دراپ 
   const filtered = data.filter(item => item.backdrop_path);
 
   return filtered.map((item) => ({
@@ -110,7 +102,7 @@ export async function getTrending(timeWindow = "week") {   // week بهتره ب
   }));
 }
 
-// 🎬 گرفتن جزئیات (داینامیک)
+//  گرفتن دیتیل فیلم 
 export async function getDetails(type, id) {
   const res = await fetch(
     `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits,videos,similar,images` //برای

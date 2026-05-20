@@ -59,7 +59,7 @@ function MovieDetails() {
     ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
     : `https://image.tmdb.org/t/p/w500${data.poster_path}`;
 
-  const cast = data.credits?.cast.slice(0, 10) || [];
+  const cast = data.credits?.cast || [];
 
   // پیدا کردن بهترین تریلر
   const trailer =
@@ -68,7 +68,6 @@ function MovieDetails() {
     videos[0] ||
     null;
 
-  // ساخت لینک iframe
   const getTrailerUrl = (video) => {
     if (!video) return "";
 
@@ -84,17 +83,14 @@ function MovieDetails() {
     }
   };
 
-  // باز کردن تریلر
   const handleTrailer = () => {
     if (!trailer) return;
 
-    // اگر یوتیوب بود داخل مودال باز شه
     if (trailer.site === "YouTube" || trailer.site === "Vimeo") {
       setShowTrailer(true);
       return;
     }
 
-    // fallback => سایت TMDB
     window.open(
       `https://www.themoviedb.org/${type}/${id}#play=${trailer.key}`,
       "_blank",
@@ -103,7 +99,6 @@ function MovieDetails() {
 
   return (
     <div className="text-white min-h-screen bg-gradient-to-b from-stone-600/70 via-stone-700/80 to-stone-800/90">
-      {/* Hero Section */}
       <div className="relative top-0 w-full min-h-screen md:min-h-[650px] flex items-end">
         {backdropUrl && (
           <>
@@ -121,8 +116,7 @@ function MovieDetails() {
 
         <div className="relative z-10 max-w-8xl mx-auto md:mx-24 px-4 py-10 w-full">
           <div className="flex flex-col mt-2 sm:flex-row gap-8 items-start">
-            {/* Poster */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 lg:mt-0 mt-5">
               <img
                 src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 alt={title}
@@ -130,7 +124,6 @@ function MovieDetails() {
               />
             </div>
 
-            {/* Information */}
             <div className="flex flex-col gap-4 text-start md:text-left">
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -151,7 +144,6 @@ function MovieDetails() {
                 </span>
               </div>
 
-              {/* Genres */}
               <div className="flex flex-wrap gap-3">
                 {data.genres?.map((g) => (
                   <span
@@ -163,14 +155,12 @@ function MovieDetails() {
                 ))}
               </div>
 
-              {/* Tagline */}
               {data.tagline && (
                 <p className="text-slate-300 text-lg italic opacity-90">
                   {data.tagline}
                 </p>
               )}
 
-              {/* Trailer Button */}
               {trailer && (
                 <button
                   onClick={handleTrailer}
@@ -181,7 +171,6 @@ function MovieDetails() {
                 </button>
               )}
 
-              {/* Overview */}
               <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-2">Overview</h3>
 
@@ -194,7 +183,6 @@ function MovieDetails() {
         </div>
       </div>
 
-      {/* Trailer Modal */}
       {showTrailer && trailer && (
         <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
           <div className="relative w-full max-w-5xl">
@@ -220,7 +208,6 @@ function MovieDetails() {
         </div>
       )}
 
-      {/* Top Cast */}
       <div className="mt-2 max-w-8xl mx-auto md:mx-24 px-4 py-2">
         <h3 className="text-lg font-semibold mb-4">Top Cast</h3>
 
@@ -230,32 +217,13 @@ function MovieDetails() {
             
             freeMode={true}
             breakpoints={{
-              0:{ slidesPerView: 2,
-                spaceBetween: 8, },
-              320: {
-                slidesPerView: 2,
-                spaceBetween: 8,
-              },
-              480: {
-                slidesPerView: 3,
-                spaceBetween: 10,
-              },
-              640: {
-                slidesPerView: 4,
-                spaceBetween: 12,
-              },
-              768: {
-                slidesPerView: 5,
-                spaceBetween: 14,
-              },
-              1024: {
-                slidesPerView: 8,
-                spaceBetween: 10,
-              },
-              1280: {
-                slidesPerView: 9,
-                spaceBetween: 12,
-              },
+              0:{ slidesPerView: 2,spaceBetween: 8 },
+              320: {slidesPerView: 2,spaceBetween: 8},
+              480: {slidesPerView: 3,spaceBetween: 10},
+              640: {slidesPerView: 4,spaceBetween: 12,},
+              768: {slidesPerView: 5,spaceBetween: 14},
+              1024: {slidesPerView: 8,spaceBetween: 10},
+              1280: {slidesPerView: 9,spaceBetween: 12},
             }}
             className="py-4"
           >

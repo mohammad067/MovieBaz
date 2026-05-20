@@ -79,9 +79,7 @@ function Navbar({ onSearch }) {
               <NavLink to="/series" className={linkClass}>
                 Series
               </NavLink>
-              <NavLink to="/favorites" className={linkClass}>
-                Favorites
-              </NavLink>
+
             </div>
           </nav>
 
@@ -185,13 +183,7 @@ function Navbar({ onSearch }) {
             >
               Series
             </NavLink>
-            <NavLink
-              to="/favorites"
-              className={mobileLinkClass}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Favorites
-            </NavLink>
+
           </div>
         )}
       </header>

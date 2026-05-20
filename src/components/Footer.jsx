@@ -1,60 +1,45 @@
-import { div, footer } from "framer-motion/client";
+import { NavLink } from "react-router-dom";
+import LogoName from "../assets/images/logo/title-moviebaz.png";
+import Logo from "../assets/images/logo/logo.png";
+import { FaTelegram, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 function Footer() {
-    return (
-        <footer className="bg-stone-800/90 border-t-4 border-stone-700/70 overflow-x-hidden relative z-10 py-2 px-3">
-              
+  return (
+    <footer className=" bg-stone-900 border-t border-stone-700/50 py-8 px-4 md:px-28">
+      <div className="max-w-8xl  mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-3 py-8 max-w-8xl mx-24 ">
+        <div className="flex items-center gap-1.5">
+          <img src={LogoName} alt="MovieBaz" className="h-7 mt-3 w-auto" />
+          <img src={Logo} alt="Logo" className="h-9 w-auto" />
+        </div>
 
-                       
-                        <div>
-                            <h2 className="shrink-0 text-base sm:text-xl md:text-2xl mb-6
-        font-bold text-violet-500 cursor-pointer">
-                                MovieBaz 
-                            </h2>
+        <div className="flex items-center gap-6 text-sm text-stone-400">
+          <NavLink to="/home" className="hover:text-stone-100 transition-colors">Home</NavLink>
+          <NavLink to="/movies" className="hover:text-stone-100 transition-colors">Movies</NavLink>
+          <NavLink to="/series" className="hover:text-stone-100 transition-colors">Series</NavLink>
+        </div>
 
-                            <div className="space-y-3 text-sm md:text-base text-zinc-500 mb-10">
-                                <p className="flex gap-2">
-                                    <span>📍</span>
-                                    <span>tehran-shahrRay-bayat ST-karimiShirazey ST</span>
-                                </p>
+        <div className="flex items-center gap-3">
+          <a href="#" className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 hover:text-blue-400 hover:border-blue-400/50 transition-all">
+            <FaTelegram size={16} />
+          </a>
+          <a href="#" className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 hover:text-green-400 hover:border-green-400/50 transition-all">
+            <FaWhatsapp size={16} />
+          </a>
+          <a href="#" className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 hover:text-pink-400 hover:border-pink-400/50 transition-all">
+            <FaInstagram size={16} />
+          </a>
+        </div>
 
-                                <p className="flex gap-2">
-                                    <span>📞</span>
-                                    <span>+98 9199724318</span>
-                                </p>
-                            </div>
+      </div>
 
-                            <h3 className="text-base md:text-lg font-semibold text-zinc-900 mb-4">
-                                Never Miss the Best Deals
-                            </h3>
-                            <div className="flex w-72 max-w-full items-center rounded-full border border-zinc-200 overflow-hidden h-11">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="flex-1 px-3 py-4 outline-none text-sm text-zinc-700 placeholder:text-zinc-400"
-                                />
-                                <button
-                                    type="button"
-                                    className="px-4 py-3 text-zinc-700 hover:bg-zinc-100 transition "
-                                >
-                                    →
-                                </button>
-                            </div>
-                        </div>
-
-
-                <ul className="space-y-3 my-14 text-sm md:text-base text-zinc-500">
-                  <li>Terms & Conditions</li>
-                  <li>Privacy Policy</li>
-                  <li>Cookie Policy</li>
-                  <li>Refund & Cancellation Policy</li>
-                  <li>User Agreement</li>
-                </ul>
-              
-            </div>
-        </footer>
-    );
+      <div className="max-w-8xl mx-auto mt-6 pt-6 border-t border-stone-800 text-center">
+        <p className="text-stone-600 text-xs">
+           {new Date().getFullYear()} MovieBaz. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
 }
+
 export default Footer;

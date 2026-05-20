@@ -5,32 +5,26 @@ import SkeletonGrid from "../components/SkeletonGrid";
 import { useError } from "../context/ErrorContext"; 
 
 function PageMovies() {
-  // لیست فیلم‌های صفحه جاری
   const [movies, setMovies] = useState([]);
 
-  // شماره صفحه فعلی
   const [currentPage, setCurrentPage] = useState(1);
 
-  // تعداد کل صفحات
   const [totalPages, setTotalPages] = useState(1);
 
-  // وضعیت لودینگ
   const [loading, setLoading] = useState(true);
 const { triggerError } = useError();
-  // هر بار که شماره صفحه عوض شد، فیلم‌های جدید بگیر
   useEffect(() => {
     async function loadMovies() {
       setLoading(true);
 
       try {
         const data = await getMovies(currentPage);
-        setMovies(data.results || data); // بعضی API ها results برمی‌گردونن
+        setMovies(data.results || data); 
 
-        // اگر API تعداد صفحات رو برگردوند، از آن استفاده کن
         if (data.total_pages) {
-          setTotalPages(Math.min(data.total_pages, 50)); // حداکثر ۵۰ صفحه
+          setTotalPages(Math.min(data.total_pages, 50)); 
         } else {
-          setTotalPages(20); // مقدار پیش‌فرض
+          setTotalPages(20);
         }
       } catch (err) {
         console.error("خطا در دریافت فیلم‌ها:", err);
@@ -45,11 +39,9 @@ const { triggerError } = useError();
 
     loadMovies();
 
-    // اسکرول به بالای صفحه
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  // تولید شماره صفحات برای نمایش (مثلاً اطراف صفحه فعلی)
   function getPageNumbers() {
     const delta = 2;
     const pages = [];
@@ -65,7 +57,6 @@ const { triggerError } = useError();
   return (
     <div className="min-h-screen bg-stone-800/90 text-white overflow-x-hidden pt-24 pb-12">
       <main className="max-w-8xl mx-auto md:mx-24 px-4 py-8 overflow-x-hidden">
-        {/* عنوان صفحه */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold">Movies</h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -73,12 +64,11 @@ const { triggerError } = useError();
           </p>
         </div>
 
-        {/* حالت لودینگ */}
         {loading ? (
           <SkeletonGrid count={30} />
         ) : (
           <>
-            {/* گرید فیلم‌ها */}
+         
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
               {movies
                 .filter((m) => m.poster_path)
@@ -87,9 +77,9 @@ const { triggerError } = useError();
                 ))}
             </div>
 
-            {/* Pagination */}
+            
             <div className="flex items-center justify-center gap-1 sm:gap-2 mt-12 flex-wrap">
-              {/* اولین صفحه */}
+              
               <button
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
@@ -98,7 +88,7 @@ const { triggerError } = useError();
                 «
               </button>
 
-              {/* قبلی */}
+          
               <button
                 onClick={() => setCurrentPage((p) => p - 1)}
                 disabled={currentPage === 1}
@@ -107,7 +97,7 @@ const { triggerError } = useError();
                 ‹
               </button>
 
-              {/* شماره صفحه اول + ... */}
+            
               {getPageNumbers()[0] > 1 && (
                 <>
                   <button
@@ -122,7 +112,7 @@ const { triggerError } = useError();
                 </>
               )}
 
-              {/* شماره صفحات */}
+   
               {getPageNumbers().map((page) => (
                 <button
                   key={page}
@@ -137,7 +127,7 @@ const { triggerError } = useError();
                 </button>
               ))}
 
-              {/* ... + آخرین صفحه */}
+             
               {getPageNumbers().at(-1) < totalPages && (
                 <>
                   {getPageNumbers().at(-1) < totalPages - 1 && (
@@ -152,7 +142,7 @@ const { triggerError } = useError();
                 </>
               )}
 
-              {/* بعدی */}
+            
               <button
                 onClick={() => setCurrentPage((p) => p + 1)}
                 disabled={currentPage === totalPages}
@@ -161,7 +151,7 @@ const { triggerError } = useError();
                 ›
               </button>
 
-              {/* آخرین صفحه */}
+            
               <button
                 onClick={() => setCurrentPage(totalPages)}
                 disabled={currentPage === totalPages}

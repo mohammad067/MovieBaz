@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 function Toast({ message, type = "success", onClose }) {
   useEffect(() => {
-    const timer = setTimeout(onClose, 500000);
+    const timer = setTimeout(onClose, 3000);
     return () => clearTimeout(timer);
   }, []);
 
