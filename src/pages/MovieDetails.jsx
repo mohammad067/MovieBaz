@@ -145,14 +145,14 @@ function MovieDetails() {
         )}
 
         <div className="relative z-10 max-w-8xl mx-auto md:mx-24 px-4 py-10 w-full">
-          <div className="flex flex-col mt-2 sm:flex-row gap-8 items-start">
+          <div className="flex flex-col mt-2 sm:flex-row md:items-start gap-8 items-center">
             <div className="flex-shrink-0 lg:mt-0 mt-5">
               <img
                 src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 alt={title}
                 loading="lazy" 
                 decoding="async"
-                className="w-50 sm:w-64 md:w-80 rounded-2xl shadow-2xl border border-white/10"
+                className="w-56 sm:w-64 md:w-80 rounded-2xl shadow-2xl border border-white/10"
               />
             </div>
 
