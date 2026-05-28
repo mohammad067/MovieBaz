@@ -50,6 +50,7 @@ function Slider({ movies = [] }) {
               <img
                 src={movie.backdrop}
                 alt={movie.title}
+                loading="lazy" decoding="async"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-l from-black via-black/50 to-transparent pointer-events-none" />
@@ -117,6 +118,7 @@ function Slider({ movies = [] }) {
             <img
               src={movie.poster}
               alt={movie.title}
+              loading="lazy" decoding="async"
               className="w-28 h-44 lg:w-48 lg:h-72 object-cover rounded-xl border border-white/20"
             />
             <div className="absolute bottom-4 left-0 right-0 bg-black/70 p-1 lg:py-3 rounded-b-xl">

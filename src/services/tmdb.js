@@ -1,8 +1,9 @@
+
 const BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
   async function fetchFromTMDB(endpoint, page=1) {
-  const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}&page=${page}`);
+  const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}&page=${page}&language=en-US&append_to_response=production_countries`);
 
 
   if (!res.ok) throw new Error("API Error");
@@ -70,8 +71,9 @@ export async function getMovies(page = 1) {
   ]);
 
   // ترکیب دو صفحه و برگرداندن 30 تای اول
-  const combined = [...page1, ...page2].slice(0, 30);
-  return addMediaType(combined, "movie");
+  const combined = [...page1, ...page2];
+  const uniqueMovies = Array.from(new Map(combined.map(item => [item.id, item])).values());
+  return addMediaType(uniqueMovies.slice(0,30), "movie");
 }
 //  سرچ (movie + tv)
 export async function searchMulti(query) {
@@ -105,7 +107,7 @@ export async function getTrending(timeWindow = "week") {
 //  گرفتن دیتیل فیلم 
 export async function getDetails(type, id) {
   const res = await fetch(
-    `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits,videos,similar,images` //برای
+    `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits,videos,similar,images,production_countries` //برای
   );
 
   if (!res.ok) throw new Error(`Failed to fetch ${type} details`);

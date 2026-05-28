@@ -17,7 +17,7 @@ function LoginModal({ onClose, onLogin }) {
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm">
       <div className="relative bg-stone-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm shadow-2xl">
         
-        {/* دکمه بستن */}
+        
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"

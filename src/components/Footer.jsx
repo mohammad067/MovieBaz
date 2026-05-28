@@ -9,8 +9,8 @@ function Footer() {
       <div className="max-w-8xl  mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
 
         <div className="flex items-center gap-1.5">
-          <img src={LogoName} alt="MovieBaz" className="h-7 mt-3 w-auto" />
-          <img src={Logo} alt="Logo" className="h-9 w-auto" />
+          <img src={LogoName} alt="MovieBaz" className="h-7 mt-3 w-auto "loading="lazy" decoding="async" />
+          <img src={Logo} alt="Logo" className="h-9 w-auto" loading="lazy" decoding="async"/>
         </div>
 
         <div className="flex items-center gap-6 text-sm text-stone-400">

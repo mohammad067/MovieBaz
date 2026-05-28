@@ -24,13 +24,13 @@ function AppContent() {
   const [hasSearched, setHasSearched] = useState(false);
   const location = useLocation();
   const { globalError, clearError } = useError();
-  // هر وقت صفحه تغییر کنه، overlay سرچ بسته شه
+
   useEffect(() => {
     setHasSearched(false);
   }, [location.pathname]);
 
   const handleSearch = async (text) => {
-    // اگر سرچ خالی شد
+    // اگه سرچ خالی شد
     if (!text?.trim()) {
       setSearchResults([]);
       setHasSearched(false);

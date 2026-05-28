@@ -5,6 +5,9 @@ import SkeletonGrid from "../components/SkeletonGrid";
 import { useError } from "../context/ErrorContext"; 
 
 function PageMovies() {
+
+
+  
   const [movies, setMovies] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,6 +75,7 @@ const { triggerError } = useError();
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
               {movies
                 .filter((m) => m.poster_path)
+                .filter((m ,index ,self)=> index === self.findIndex((t) => t.id === m.id))
                 .map((movie) => (
                   <MovieCard key={movie.id} film={movie} />
                 ))}

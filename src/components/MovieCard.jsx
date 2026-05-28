@@ -14,26 +14,25 @@ function MovieCard({ film }) {
     id,
   } = film;
 
-  // عنوان فیلم یا سریال
   const movietitle = title || name || "unknown";
 
-  // تشخیص type
+  
   const type = media_type || (title ? "movie" : "tv");
 
-  // تاریخ
+ 
   const date =
     last_air_date ||
     first_air_date ||
     release_date ||
     "تاریخ نامشخص";
 
-  // امتیاز
+
   const rating =
     vote_average !== undefined && vote_average !== null
       ? vote_average.toFixed(1)
       : "بدون امتیاز";
 
-  // عکس
+ 
   const imageUrl = poster_path
     ? `https://image.tmdb.org/t/p/w500${poster_path}`
     : `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(
@@ -57,8 +56,8 @@ function MovieCard({ film }) {
             src={imageUrl}
             alt={`پوستر ${movietitle}`}
             className="object-cover transition-all duration-300 group-hover:scale-105 w-full h-full "
-            loading="lazy"
-          />
+            loading="lazy" decoding="async"
+            />
 
           {/* Hover Details */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-3 md:p-4">

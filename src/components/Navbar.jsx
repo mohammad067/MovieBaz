@@ -61,10 +61,12 @@ function Navbar({ onSearch }) {
           <div className="flex items-center gap-1.5 flex-shrink-0">
             <img
               src={LogoName}
+              loading="lazy" 
+              decoding="async"
               alt="LogoName"
               className="w-auto h-7 sm:h-8 md:h-9 mt-3"
             />
-            <img src={Logo} alt="Logo" className="w-auto h-9 sm:h-10 md:h-10" />
+            <img src={Logo} alt="Logo" className="w-auto h-9 sm:h-10 md:h-10" loading="lazy" decoding="async"/>
           </div>
 
           {/* منوی دسکتاپ */}
@@ -93,6 +95,7 @@ function Navbar({ onSearch }) {
                   <img
                     src={user.picture}
                     alt={user.name}
+                    loading="lazy" decoding="async"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowDropdown((prev) => !prev);
