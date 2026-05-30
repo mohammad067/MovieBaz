@@ -62,8 +62,8 @@ function Slider({ movies = [] }) {
       </Swiper>
 
       <div className="absolute inset-0 z-30 flex items-end md:items-center justify-start px-6 md:px-10 lg:px-16 pb-24 md:pb-0 pointer-events-none">
-        <div className="space-y-4 max-w-[50%] md:max-w-[40%] lg:max-w-lg">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl">
+        <div className="space-y-4 max-w-[90%] md:max-w-[40%] lg:max-w-[50%]">
+          <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl">
             {activeMovie?.title}
           </h2>
 

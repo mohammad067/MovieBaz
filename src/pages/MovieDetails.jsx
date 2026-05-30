@@ -263,10 +263,10 @@ function MovieDetails() {
                 {trailerKey ? (
                   <button
                     onClick={() => setShowTrailer(true)}
-                    className="inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/30 hover:border-white/50 transition-all duration-300 text-white text-lg font-semibold px-8 py-3.5 rounded-2xl backdrop-blur-sm"
+                    className="inline-flex items-center underline transition-all duration-300 text-white text-lg font-semibold mx-2 "
                   >
                     Watch Trailer
-                    <Play className="text-2xl" />
+                    
                   </button>
                 ) : (
                   <button
@@ -352,7 +352,7 @@ function MovieDetails() {
             freeMode={true}
             breakpoints={{
               0: { slidesPerView: 2, spaceBetween: 8 },
-              320: { slidesPerView: 2, spaceBetween: 8 },
+              320: { slidesPerView: 3, spaceBetween: 8 },
               480: { slidesPerView: 3, spaceBetween: 10 },
               640: { slidesPerView: 4, spaceBetween: 12 },
               768: { slidesPerView: 5, spaceBetween: 14 },

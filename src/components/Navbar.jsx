@@ -7,16 +7,15 @@ import { NavLink } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import Toast from "../components/Toast";
 
+import { getUserFromStorage } from '../utils/userStorage';
+
 function Navbar({ onSearch }) {
   const [isScrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [toast, setToast] = useState(null);
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("moviebaz_user");
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState(()=> getUserFromStorage());
 
   useEffect(() => {
     if (!showDropdown) return;
