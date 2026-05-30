@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
 import LogoName from "../assets/images/logo/title-moviebaz.png";
-import Logo from "../assets/images/logo/logo.png";
+import Logo from "../assets/images/logo/logo2.png";
 import { User, Menu, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
@@ -65,7 +65,7 @@ function Navbar({ onSearch }) {
               alt="LogoName"
               className="w-auto h-7 sm:h-8 md:h-9 mt-3"
             />
-            <img src={Logo} alt="Logo" className="w-auto h-9 sm:h-10 md:h-10" loading="lazy" decoding="async"/>
+            <img src={Logo} alt="Logo" className="w-auto h-9 sm:h-10 md:h-14" loading="lazy" decoding="async"/>
           </div>
 
           {/* منوی دسکتاپ */}
