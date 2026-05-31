@@ -33,8 +33,7 @@ function Slider({ movies = [] }) {
   };
 
   return (
-    <div className="relative w-full h-[55vh] sm:h-[60vh] md:h-[75vh] overflow-hidden">
-      <Swiper
+<div className="relative w-full h-[45vh] sm:h-[60vh] md:h-[70vh] overflow-hidden">      <Swiper
         loop={true}
         modules={[Pagination, Autoplay]}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
@@ -61,7 +60,7 @@ function Slider({ movies = [] }) {
         ))}
       </Swiper>
 
-      <div className="absolute inset-0 z-30 flex items-end md:items-center justify-start px-6 md:px-10 lg:px-16 pb-24 md:pb-0 pointer-events-none">
+        <div className="absolute -bottom-5 inset-0 z-30 flex items-end md:items-center justify-start px-6 md:px-10 lg:px-16 pb-10 md:pb-0 pointer-events-none">
         <div className="space-y-4 max-w-[90%] md:max-w-[40%] lg:max-w-[50%]">
           <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl">
             {activeMovie?.title}
