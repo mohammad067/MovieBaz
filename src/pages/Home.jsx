@@ -58,14 +58,14 @@ function Home({ }) {
 
   return (
     <div className="min-h-screen bg-stone-800/90 text-white overflow-x-hidden">
-      {loading ?( <SkeletonSlider /> ):( <Slider movies={PopularMovies} />)}
+      {loading ?( <SkeletonSlider /> ):( <Slider movies={trendingMovies} />)}
 
       <main className="max-w-8xl mx-auto md:mx-24 px-4 py-8 overflow-x-hidden">
         <div className="space-y-2 flex flex-col">
           <section>
             <div className="flex items-center mb-4 mx-1 gap-4">
               {" "}
-              <h2 className="text-xs sm:text-sm md:text-lg lg:text-2xl font-bold tracking-widest uppercase text-white/90">
+              <h2 className="text-sm sm:text-lg md:text-xl lg:text-3xl font-bold tracking-widest uppercase text-white/90">
                 Popular
               </h2>{" "}
               <div className="flex-1 h-px bg-gradient-to-l from-white/20 to-transparent" />
@@ -82,7 +82,7 @@ function Home({ }) {
           <section>
             <div className="flex items-center mb-4 mx-1 gap-4">
               {" "}
-              <h2 className="text-xs sm:text-sm md:text-lg lg:text-2xl font-bold tracking-widest uppercase text-white/90">
+              <h2 className="text-sm sm:text-lg md:text-xl lg:text-3xl font-bold tracking-widest uppercase text-white/90">
                 New
               </h2>{" "}
               <div className="flex-1 h-px bg-gradient-to-l from-white/20 to-transparent" />
@@ -96,7 +96,7 @@ function Home({ }) {
 
           <section>
             <div className="flex items-center mb-4 mx-1 gap-4">
-              <h2 className="text-xs sm:text-sm md:text-lg lg:text-2xl font-bold tracking-widest uppercase text-white/90">
+              <h2 className="text-sm sm:text-lg md:text-xl lg:text-3xl font-bold tracking-widest uppercase text-white/90">
                 Series
               </h2>
               <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent" />
@@ -117,7 +117,7 @@ function Home({ }) {
 
           <section>
             <div className="flex items-center mb-4 mx-1 gap-4">
-              <h2 className="text-xs sm:text-sm md:text-lg lg:text-2xl font-bold tracking-widest uppercase text-white/90">
+              <h2 className="text-sm sm:text-lg md:text-xl lg:text-3xl font-bold tracking-widest uppercase text-white/90">
                 Movies
               </h2>
               <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent" />

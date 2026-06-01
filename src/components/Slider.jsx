@@ -60,7 +60,7 @@ function Slider({ movies = [] }) {
         ))}
       </Swiper>
 
-      <div className="absolute bottom-[22%] md:bottom-[28%] lg:bottom-[45%] left-0 right-0 z-30 px-6 sm:px-8 md:px-12 lg:px-16 pointer-events-none">
+      <div className="absolute bottom-[22%] md:bottom-[28%] lg:bottom-[35%] left-0 right-0 z-30 px-6 sm:px-8 md:px-12 lg:px-16 pointer-events-none">
         <div className=" max-w-[92%] sm:max-w-[85%] md:max-w-[48%] lg:max-w-[45%]">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white drop-shadow-2xl mb-4 md:mb-6">
             {activeMovie?.title}
@@ -92,7 +92,7 @@ function Slider({ movies = [] }) {
         </div>
       </div>
 
-      <div className="absolute bottom-[22%] md:bottom-[22%] left-0 -right-1/2 z-10 hidden md:flex justify-center gap-1 overflow-hidden py-0">
+      <div className="absolute bottom-[22%] md:bottom-[28%] lg:bottom-[23%] left-0 -right-1/2 z-10 hidden md:flex justify-center gap-1 overflow-hidden py-0">
         {/* ✅ key تغییر کرد به id+index تا duplicate نشه */}
         {rotatedMovies.map((movie, index) => (
           <div
