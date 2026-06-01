@@ -33,15 +33,15 @@ function Slider({ movies = [] }) {
   };
 
   return (
-<div className="relative w-full h-[45vh] sm:h-[60vh] md:h-[70vh] overflow-hidden">      <Swiper
+    <div className="relative w-full h-[52vh] sm:h-[62vh] md:h-[68vh] lg:h-[73vh] xl:h-[75vh] overflow-hidden">
+      <Swiper
         loop={true}
         modules={[Pagination, Autoplay]}
-        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        autoplay={{ delay: 200000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className="w-full h-full"
-        style={{ zIndex: 0 }}
       >
         {normalizeMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
@@ -60,39 +60,39 @@ function Slider({ movies = [] }) {
         ))}
       </Swiper>
 
-        <div className="absolute -bottom-5 inset-0 z-30 flex items-end md:items-center justify-start px-6 md:px-10 lg:px-16 pb-10 md:pb-0 pointer-events-none">
-        <div className="space-y-4 max-w-[90%] md:max-w-[40%] lg:max-w-[50%]">
-          <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl">
+      <div className="absolute bottom-[22%] md:bottom-[28%] lg:bottom-[45%] left-0 right-0 z-30 px-6 sm:px-8 md:px-12 lg:px-16 pointer-events-none">
+        <div className=" max-w-[92%] sm:max-w-[85%] md:max-w-[48%] lg:max-w-[45%]">
+          <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-5 drop-shadow-2xl leading-tight">
             {activeMovie?.title}
           </h2>
 
-          <div className="flex flex-col items-start gap-2">
-            <span className="bg-yellow-400 text-black font-extrabold text-xs md:text-sm px-2 py-1 md:px-3 md:py-1 rounded">
+          <div className="flex items-center gap-3 my-7">
+            <span className="bg-yellow-400 mt-1 text-black font-extrabold text-xs md:text-sm px-2 py-1 md:px-3 md:py-1 rounded tracking-wider">
               IMDB
             </span>
 
             <span className="text-white font-bold text-xl md:text-2xl">
               {activeMovie?.rating}
-              <span className="text-lg md:text-xl font-normal">/ 10</span>
+              <span className="text-lg md:text-xl font-normal opacity-75">/ 10</span>
             </span>
-
-            <div className="mt-2 pointer-events-auto relative z-50">
+</div>
+            <div className="pointer-events-auto">
               <button
                 type="button"
                 onClick={handlePlayClick}
-                className="flex items-center justify-center gap-2 md:gap-4 bg-white text-black font-bold rounded-lg p-2 md:px-4 md:py-2 max-w-[150px] hover:bg-neutral-200 transition-all duration-300 shadow-[0_0_15px_rgba(250,255,255,0.5)] cursor-pointer"
+                className="flex items-center gap-3 bg-white text-black font-bold rounded-lg p-2 md:px-5 md:py-2 text-sm md:text-lg hover:bg-neutral-200 transition-all duration-300 shadow-[0_0_15px_rgba(250,255,255,0.5)] cursor-pointer"
               >
-                <span className="text-sm md:text-lg">Watch</span>
+                <span>Watch</span>
                 <div className="w-5 h-5 md:w-9 md:h-9 rounded-full bg-black flex items-center justify-center">
                   <Play className="w-3 h-3 md:w-4 md:h-4 text-white fill-white" />
                 </div>
               </button>
-            </div>
+            
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-1/4 left-0 -right-1/2 z-10 hidden md:flex justify-center gap-1 overflow-hidden py-0">
+      <div className="absolute bottom-[22%] md:bottom-[22%] left-0 -right-1/2 z-10 hidden md:flex justify-center gap-1 overflow-hidden py-0">
         {/* ✅ key تغییر کرد به id+index تا duplicate نشه */}
         {rotatedMovies.map((movie, index) => (
           <div
