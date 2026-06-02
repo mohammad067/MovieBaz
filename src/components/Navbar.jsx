@@ -57,15 +57,15 @@ function Navbar({ onSearch }) {
       >
         <div className="max-w-8xl mx-auto px-4 md:px-8 lg:px-28 py-1 flex items-center justify-between gap-2">
           {/* لوگو */}
-          <div className="flex items-center gap-1.5 flex-shrink-0">
+          <div className="flex items-center gap-1.5 flex-shrink-0 min-w-0 ">
             <img
               src={LogoName}
               loading="lazy" 
               decoding="async"
               alt="LogoName"
-              className="w-auto h-7 sm:h-8 md:h-9 mt-3"
+              className="w-auto h-7 sm:h-8 md:h-9 mt-3 flex-shrink-0"
             />
-            <img src={Logo} alt="Logo" className="w-auto h-9 sm:h-10 md:h-14" loading="lazy" decoding="async"/>
+            <img src={Logo} alt="Logo" className="w-auto h-9 sm:h-10 md:h-14 flex-shrink-0" loading="lazy" decoding="async"/>
           </div>
 
           {/* منوی دسکتاپ */}
@@ -85,7 +85,7 @@ function Navbar({ onSearch }) {
           </nav>
 
           {/* سمت راست */}
-          <div className="flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <SearchBar onSearch={onSearch} />
 
             {user ? (
@@ -200,6 +200,7 @@ function Navbar({ onSearch }) {
             setToast({
               message: `Wellcome, ${userData.name}! 👋 `,
               type: "success",
+              classname: "text-blue-400",
             });
           }}
         />

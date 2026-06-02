@@ -1,5 +1,3 @@
-// src/utils/userStorage.js
-
 export const getUserFromStorage = () => {
   try {
     const saved = localStorage.getItem("moviebaz_user");

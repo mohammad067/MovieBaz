@@ -13,13 +13,15 @@ function SearchBar({ onSearch }) {
     }
   }, [isInputVisible]);
 
-  const toggleSearch = () => {
-    setIsInputVisible((prev) => !prev);
-    if (isInputVisible) {
+const toggleSearch = () => {
+  setIsInputVisible((prev) => {
+    if (prev) {
       setQuery("");
       onSearch("");
     }
-  };
+    return !prev;
+  });
+};
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -40,7 +42,7 @@ function SearchBar({ onSearch }) {
             initial={{ width: 36, opacity: 0 }}
             animate={{ width: "min(280px, 55vw)", opacity: 1 }}
             exit={{ width: 36, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             className="absolute right-0 flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-full overflow-hidden h-full"
           >
             <input

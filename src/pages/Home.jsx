@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import MovieGrid from "../components/MovieGrid";
-import SkeletonGrid from "../components/SkeletonGrid"; // اضافه کن
+import SkeletonGrid from "../components/SkeletonGrid";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import { useError } from "../context/ErrorContext"; // ✅ اضافه کن
+import { useError } from "../context/ErrorContext"; 
 
 import {
   getPopularMovies,
@@ -17,14 +17,14 @@ import {
 import Slider from "../components/Slider";
 import SkeletonSlider from "../components/SkeletonSlider";
 
-function Home({ }) {
+function Home() {
   const [PopularMovies, setPopularMovies] = useState([]);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [tvShows, setTvShows] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [discoverMovies, setDiscoverMovies] = useState([]);
 
-  // وضعیت لودینگ - تا وقتی همه دیتاها نیومده true هست
+  
   const [loading, setLoading] = useState(true);
   const { triggerError } = useError();
 
@@ -47,7 +47,7 @@ function Home({ }) {
         console.error(error);
         triggerError(" Failed to load homepage data. ");
       } finally {
-        // چه موفق چه ناموفق، لودینگ رو خاموش کن
+        // خاموش کردن لودینگ  در هر حالت
         setLoading(false);
       }
     };
@@ -64,10 +64,10 @@ function Home({ }) {
         <div className="space-y-2 flex flex-col">
           <section>
             <div className="flex items-center mb-4 mx-1 gap-4">
-              {" "}
+            
               <h2 className="text-sm sm:text-lg md:text-xl lg:text-3xl font-bold tracking-widest uppercase text-white/90">
                 Popular
-              </h2>{" "}
+              </h2>
               <div className="flex-1 h-px bg-gradient-to-l from-white/20 to-transparent" />
             </div>
 
@@ -81,10 +81,10 @@ function Home({ }) {
 
           <section>
             <div className="flex items-center mb-4 mx-1 gap-4">
-              {" "}
+          
               <h2 className="text-sm sm:text-lg md:text-xl lg:text-3xl font-bold tracking-widest uppercase text-white/90">
                 New
-              </h2>{" "}
+              </h2>
               <div className="flex-1 h-px bg-gradient-to-l from-white/20 to-transparent" />
             </div>
             {loading ? (

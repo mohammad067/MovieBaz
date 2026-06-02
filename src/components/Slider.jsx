@@ -12,7 +12,7 @@ function Slider({ movies = [] }) {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const sliderMovies = movies.slice(1, 5);
+  const sliderMovies = movies.slice(0, 4);
   const normalizeMovies = sliderMovies.map(normalizeMovie);
 
   if (!normalizeMovies.length) return null;
@@ -49,7 +49,8 @@ function Slider({ movies = [] }) {
               <img
                 src={movie.backdrop}
                 alt={movie.title}
-                loading="lazy" decoding="async"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-l from-black via-black/50 to-transparent pointer-events-none" />
@@ -73,21 +74,22 @@ function Slider({ movies = [] }) {
 
             <span className="text-white font-bold text-xl md:text-2xl">
               {activeMovie?.rating}
-              <span className="text-lg md:text-xl font-normal opacity-75">/ 10</span>
+              <span className="text-lg md:text-xl font-normal opacity-75">
+                / 10
+              </span>
             </span>
-</div>
-            <div className="pointer-events-auto">
-              <button
-                type="button"
-                onClick={handlePlayClick}
-                className="flex items-center gap-3 bg-white text-black font-bold rounded-lg p-2 md:px-5 md:py-2 text-sm md:text-lg hover:bg-neutral-200 transition-all duration-300 shadow-[0_0_15px_rgba(250,255,255,0.5)] cursor-pointer"
-              >
-                <span>Watch</span>
-                <div className="w-5 h-5 md:w-9 md:h-9 rounded-full bg-black flex items-center justify-center">
-                  <Play className="w-3 h-3 md:w-4 md:h-4 text-white fill-white" />
-                </div>
-              </button>
-            
+          </div>
+          <div className="pointer-events-auto">
+            <button
+              type="button"
+              onClick={handlePlayClick}
+              className="flex items-center gap-3 bg-white text-black font-bold rounded-lg p-2 md:px-5 md:py-2 text-sm md:text-lg hover:bg-neutral-200 transition-all duration-300 shadow-[0_0_15px_rgba(250,255,255,0.5)] cursor-pointer"
+            >
+              <span>Watch</span>
+              <div className="w-5 h-5 md:w-9 md:h-9 rounded-full bg-black flex items-center justify-center">
+                <Play className="w-3 h-3 md:w-4 md:h-4 text-white fill-white" />
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -117,7 +119,8 @@ function Slider({ movies = [] }) {
             <img
               src={movie.poster}
               alt={movie.title}
-              loading="lazy" decoding="async"
+              loading="lazy"
+              decoding="async"
               className="w-28 h-44 lg:w-48 lg:h-72 object-cover rounded-xl border border-white/20"
             />
             <div className="absolute bottom-4 left-0 right-0 bg-black/70 p-1 lg:py-3 rounded-b-xl">
