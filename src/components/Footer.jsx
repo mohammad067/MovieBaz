@@ -20,7 +20,7 @@ function Footer() {
         </div>
 
         <div className="flex items-center gap-3">
-          <a href="https://t.me/mohammad_83" className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 hover:text-blue-400 hover:border-blue-400/50 transition-all" target="">
+          <a href="https://t.me/mohammad_083" className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 hover:text-blue-400 hover:border-blue-400/50 transition-all" target="">
             <FaTelegram size={16} />
           </a>
           <a href="https://wa.me/+989199724318" className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 hover:text-green-400 hover:border-green-400/50 transition-all">

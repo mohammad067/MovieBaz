@@ -13,7 +13,7 @@ function Toast({ message, type = "success", onClose }) {
   };
 
   return (
-    <div className={`fixed top-20 left-1/2 -translate-x-1/2 z-[999] flex items-center gap-3 px-4 py-3 mx-8 rounded-xl border shadow-2xl backdrop-blur-sm ${colors[type]}`}>
+    <div className={`fixed top-24 left-1/3 md:left-1/2 -translate-x-24 md:-translate-x-1/2 z-[999] flex items-center justify-between gap-3 px-4 py-3 mx-8 rounded-xl border shadow-2xl backdrop-blur-sm w-full max-w-[240px] ${colors[type]}`}>
       <span className="text-sm font-medium">{message}</span>
       <button onClick={onClose}>
         <X className="w-4 h-4" />
